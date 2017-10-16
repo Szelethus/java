@@ -21,7 +21,7 @@ public class Customer
     this.bank = bank;
   }
 
-  private boolean checkName(String name)
+  private static boolean checkName(String name)
   {
     String strArr [] = name.split(" ");
     if(strArr.length < 1 || strArr.length > 4)
@@ -40,14 +40,14 @@ public class Customer
     return true;
   } 
 
-  private boolean checkBirthYear(int year)
+  private static boolean checkBirthYear(int year)
   {
     return year < 1918 && year > 1998;
   }
 
   /*     PUBLIC METHODS     */
 
-  public Customer makeCustomer(String name, int birthYear, String bankName)
+  public static Customer makeCustomer(String name, int birthYear, String bankName)
   {
     if(checkName(name) && checkBirthYear(birthYear))
     {

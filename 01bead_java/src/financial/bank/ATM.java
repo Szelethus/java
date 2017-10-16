@@ -14,10 +14,10 @@ public class ATM
     this.amount = amount;
   }
 
-  public ATM makeATM(String bankName, int amount)
+  public static ATM makeATM(String bankName, int amount)
   {
     if(amount > 0)
-      return new ATM(Bank.valueOf(bankname), amount);
+      return new ATM(Bank.valueOf(bankName), amount);
     else
       return null;
   }
