@@ -49,9 +49,9 @@ public class Customer
 
   public Customer makeCustomer(String name, int birthYear, String bankName)
   {
-    if(checkName(name) && checkBirthYear(birthYear) && Bank.valueOf(bankname) != null)
+    if(checkName(name) && checkBirthYear(birthYear))
     {
-      return new Customer(name, birthYear, bankName);
+      return new Customer(name, birthYear, Bank.valueOf(bankName));
     }
     else
       return null;
