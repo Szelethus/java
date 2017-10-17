@@ -14,7 +14,7 @@ public class Simulator
   private Customer getCustomerByName(String customerName)
   {
     int i = 0;
-    while (i < customers.size() && customers.get(i).getName() == customerName)
+    while (i < customers.size() && customers.get(i).getName().equals(customerName) == false)
       ++i;
     if(i < customers.size())
       return customers.get(i);
@@ -36,9 +36,11 @@ public class Simulator
   
   public void insertCustomer(String customerName, int birthYear, String bankName)
   {
-    if(getCustomerByName(customerName) != null)
+    if(getCustomerByName(customerName) == null)
     {
-      customers.add(Customer.makeCustomer(customerName, birthYear, bankName));
+      Customer newCustomer = Customer.makeCustomer(customerName, birthYear, bankName);
+      if(newCustomer != null)
+        customers.add(newCustomer);
     }
   }
 
@@ -54,7 +56,7 @@ public class Simulator
       {
         current.decreaseAmount(amountPlusFee);
         atm.decreaseAmount(amount);
-        pwLog.print(current.toString());
+        pwLog.println(current.toString());
       }
     }
   }
@@ -66,7 +68,7 @@ public class Simulator
     {
       current.increaseAmount(amount);
       atm.increaseAmount(amount);
-      pwLog.print(current.toString());
+      pwLog.println(current.toString());
     }
   }
 
@@ -74,30 +76,54 @@ public class Simulator
   {
 		BufferedReader reader = new BufferedReader(new FileReader(new File(inputFileName)));
 		
-		String str [] = new String[2];
+		String str = reader.readLine();
 		String command;
 
 		while(str != null)
     {
-			str = reader.readLine().split(":");
-			command = str[0];
+			String strArr [] = str.split(":"); //processing the current line
+      str = reader.readLine(); //reading the NEXT line
 
-			switch(command)
-			{
-			  case "REG":
-          String customerData [] = str[1].split(",");
-          insertCustomer(customerData[0], Integer.parseInt(customerData[1]), customerData[2]);
-          break;
-        case "GET":
-          String withdrawData [] = str[1].split(",");
-          withdrawCash(withdrawData[0], Integer.parseInt(withdrawData[1]));
-          break;
-        case "PUT":
-          String depositData [] = str[1].split(",");
-          depositCash(depositData[0], Integer.parseInt(depositData[1]));
-          break;
-			}
-		}
+      if(strArr.length != 2)
+        continue;
+
+			command = strArr[0];
+      try
+      {
+        switch(command)
+        {
+          case "REG":
+            String customerData [] = strArr[1].split(",");
+            if(customerData.length != 3)
+              continue;
+            insertCustomer(customerData[0], Integer.parseInt(customerData[1]), customerData[2]);
+            break;
+
+          case "GET":
+            String withdrawData [] = strArr[1].split(",");
+            if(withdrawData.length != 2)
+              continue;
+            withdrawCash(withdrawData[0], Integer.parseInt(withdrawData[1]));
+            break;
+
+          case "PUT":
+            String depositData [] = strArr[1].split(",");
+            if(depositData.length != 2)
+              continue;
+            depositCash(depositData[0], Integer.parseInt(depositData[1]));
+            break;
+
+          default:
+            break;
+        }
+      }
+      catch(NumberFormatException e)
+      {
+        //If this exception is caught, *Data array's second element isnt a number.
+        //This is not a fatal error, the rest of the file can be processed,
+        //but this line is not a valid input.
+      }
+    }
   }
   
   public void close()

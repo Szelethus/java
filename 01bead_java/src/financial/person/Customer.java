@@ -24,25 +24,23 @@ public class Customer
   private static boolean checkName(String name)
   {
     String strArr [] = name.split(" ");
-    if(strArr.length < 1 || strArr.length > 4)
+    if(strArr.length < 2 || strArr.length > 4)
       return false;
-
     for(String subName : strArr)
     {
       if(subName.length() < 3)
         return false;
-      if(subName.substring(0,0).matches("[A-Z]") == false || Character.isUpperCase(subName.charAt(0)) == false)
+      if(subName.substring(0,1).matches("[A-Z]") == false || Character.isUpperCase(subName.charAt(0)) == false)
         return false;
       if(subName.substring(1).matches("[a-z]+") == false)
         return false;
     }
-
     return true;
   } 
 
   private static boolean checkBirthYear(int year)
   {
-    return year < 1918 && year > 1998;
+    return year >= 1918 && year <= 1998;
   }
 
   /*     PUBLIC METHODS     */
@@ -51,10 +49,17 @@ public class Customer
   {
     if(checkName(name) && checkBirthYear(birthYear))
     {
-      return new Customer(name, birthYear, Bank.valueOf(bankName));
+      try
+      {
+        return new Customer(name, birthYear, Bank.valueOf(bankName));
+      }
+      catch(IllegalArgumentException e)
+      {
+        return null;
+      }
     }
     else
-      return null;
+      return null;  
   }
 
   public String getName()

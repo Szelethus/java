@@ -13,7 +13,9 @@ public class Main
     }
     try
     {
-      Simulator simulator = new Simulator(args[0], Integer.parseInt(args[1]), args[2]); 
+      Simulator simulator = new Simulator(args[0], 1000000, args[2]);
+      simulator.simulate(args[1]);
+      simulator.close();
     }
     catch(Exception e)
     {
