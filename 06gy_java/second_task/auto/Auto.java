@@ -9,7 +9,7 @@ public class Auto
   private int maxSpeed;
 
   private static int counter = 0;
-  
+
   public Auto(String licensePlate, Color color, int maxSpeed)
   {
     this.licensePlate = licensePlate;

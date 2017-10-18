@@ -14,32 +14,34 @@ public class Simulator
   private Customer getCustomerByName(String customerName)
   {
     int i = 0;
-    while (i < customers.size() && customers.get(i).getName().equals(customerName) == false)
+    while (i < customers.size()
+        && customers.get(i).getName().equals(customerName) == false)
       ++i;
-    if(i < customers.size())
+    if (i < customers.size())
       return customers.get(i);
     else
       return null;
   }
 
-  public Simulator(String bankName, int initAmount, String outputFileName) throws IllegalArgumentException, FileNotFoundException, SecurityException
+  public Simulator(String bankName, int initAmount, String outputFileName)
+      throws IllegalArgumentException, FileNotFoundException, SecurityException
   {
-    this.atm = ATM.makeATM(bankName, initAmount);
-    
-    if(this.atm == null)
-      throw new IllegalArgumentException();
-
     customers = new LinkedList<Customer>();
-
     pwLog = new PrintWriter(outputFileName);
+    this.atm = ATM.makeATM(bankName, initAmount);
+
+    if (this.atm == null)
+      throw new IllegalArgumentException();
   }
-  
-  public void insertCustomer(String customerName, int birthYear, String bankName)
+
+  public void insertCustomer(
+      String customerName, int birthYear, String bankName)
   {
-    if(getCustomerByName(customerName) == null)
+    if (getCustomerByName(customerName) == null)
     {
-      Customer newCustomer = Customer.makeCustomer(customerName, birthYear, bankName);
-      if(newCustomer != null)
+      Customer newCustomer
+          = Customer.makeCustomer(customerName, birthYear, bankName);
+      if (newCustomer != null)
         customers.add(newCustomer);
     }
   }
@@ -48,11 +50,11 @@ public class Simulator
   {
     Customer current = getCustomerByName(customerName);
 
-    if(current != null && amount > 0 && atm.getAmount() > amount)
+    if (current != null && amount > 0 && atm.getAmount() > amount)
     {
       int amountPlusFee = amount + atm.calculateFee(current.getBank(), amount);
 
-      if(current.getAmount() > amountPlusFee)
+      if (current.getAmount() > amountPlusFee)
       {
         current.decreaseAmount(amountPlusFee);
         atm.decreaseAmount(amount);
@@ -64,7 +66,7 @@ public class Simulator
   public void depositCash(String customerName, int amount)
   {
     Customer current = getCustomerByName(customerName);
-    if(current != null && amount > 0)
+    if (current != null && amount > 0)
     {
       current.increaseAmount(amount);
       atm.increaseAmount(amount);
@@ -72,60 +74,58 @@ public class Simulator
     }
   }
 
+  private void executeCommand(String command, String args[])
+  {
+    switch (command)
+    {
+    case "REG":
+      if (args.length != 3)
+        return;
+      insertCustomer(args[0], Integer.parseInt(args[1]), args[2]);
+      break;
+
+    case "GET":
+      if (args.length != 2)
+        return;
+      withdrawCash(args[0], Integer.parseInt(args[1]));
+      break;
+
+    case "PUT":
+      if (args.length != 2)
+        return;
+      depositCash(args[0], Integer.parseInt(args[1]));
+      break;
+    }
+  }
+
   public void simulate(String inputFileName) throws Exception
   {
-		BufferedReader reader = new BufferedReader(new FileReader(new File(inputFileName)));
-		
-		String str = reader.readLine();
-		String command;
+    BufferedReader reader
+        = new BufferedReader(new FileReader(new File(inputFileName)));
 
-		while(str != null)
+    String str = reader.readLine();
+
+    while (str != null)
     {
-			String strArr [] = str.split(":"); //processing the current line
-      str = reader.readLine(); //reading the NEXT line
+      String commandAndArgs[] = str.split(":"); // processing the current line
+      str = reader.readLine(); // reading the NEXT line
 
-      if(strArr.length != 2)
+      if (commandAndArgs.length != 2)
         continue;
 
-			command = strArr[0];
+      String command = commandAndArgs[0];
+      String args[] = commandAndArgs[1].split(",");
       try
       {
-        switch(command)
-        {
-          case "REG":
-            String customerData [] = strArr[1].split(",");
-            if(customerData.length != 3)
-              continue;
-            insertCustomer(customerData[0], Integer.parseInt(customerData[1]), customerData[2]);
-            break;
-
-          case "GET":
-            String withdrawData [] = strArr[1].split(",");
-            if(withdrawData.length != 2)
-              continue;
-            withdrawCash(withdrawData[0], Integer.parseInt(withdrawData[1]));
-            break;
-
-          case "PUT":
-            String depositData [] = strArr[1].split(",");
-            if(depositData.length != 2)
-              continue;
-            depositCash(depositData[0], Integer.parseInt(depositData[1]));
-            break;
-
-          default:
-            break;
-        }
+        executeCommand(command, args);
       }
-      catch(NumberFormatException e)
+      catch (NumberFormatException e)
       {
-        //If this exception is caught, *Data array's second element isnt a number.
-        //This is not a fatal error, the rest of the file can be processed,
-        //but this line is not a valid input.
+        // If this exception is caught, args' second element isnt a number.
       }
     }
   }
-  
+
   public void close()
   {
     pwLog.close();

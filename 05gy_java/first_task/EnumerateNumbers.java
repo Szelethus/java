@@ -1,14 +1,20 @@
 import java.util.*;
 
-public class EnumerateNumbers{
-  public static void main(String [] args){
+public class EnumerateNumbers
+{
+  public static void main(String[] args)
+  {
     Vector<Integer> numbers = new Vector<Integer>();
     int nonNumbers = 0;
-    
-    for(String arg : args){
-      try{
+
+    for (String arg : args)
+    {
+      try
+      {
         numbers.add(Integer.parseInt(arg));
-      }catch(java.lang.NumberFormatException e){
+      }
+      catch (java.lang.NumberFormatException e)
+      {
         nonNumbers++;
       }
     }

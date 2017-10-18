@@ -1,4 +1,5 @@
 
-public class Gender{
+public class Gender
+{
     public 
 }

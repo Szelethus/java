@@ -6,7 +6,7 @@ import java.lang.Enum;
 public class Customer
 {
   /*     PRIVATE FIELDS    */
-  
+
   private String name;
   private int birthYear;
   private Bank bank;
@@ -23,20 +23,21 @@ public class Customer
 
   private static boolean checkName(String name)
   {
-    String strArr [] = name.split(" ");
-    if(strArr.length < 2 || strArr.length > 4)
+    String strArr[] = name.split(" ");
+    if (strArr.length < 2 || strArr.length > 4)
       return false;
-    for(String subName : strArr)
+    for (String subName : strArr)
     {
-      if(subName.length() < 3)
+      if (subName.length() < 3)
         return false;
-      if(subName.substring(0,1).matches("[A-Z]") == false || Character.isUpperCase(subName.charAt(0)) == false)
+      if (subName.substring(0, 1).matches("[A-Z]") == false
+          || Character.isUpperCase(subName.charAt(0)) == false)
         return false;
-      if(subName.substring(1).matches("[a-z]+") == false)
+      if (subName.substring(1).matches("[a-z]+") == false)
         return false;
     }
     return true;
-  } 
+  }
 
   private static boolean checkBirthYear(int year)
   {
@@ -45,21 +46,22 @@ public class Customer
 
   /*     PUBLIC METHODS     */
 
-  public static Customer makeCustomer(String name, int birthYear, String bankName)
+  public static Customer makeCustomer(
+      String name, int birthYear, String bankName)
   {
-    if(checkName(name) && checkBirthYear(birthYear))
+    if (checkName(name) && checkBirthYear(birthYear))
     {
       try
       {
         return new Customer(name, birthYear, Bank.valueOf(bankName));
       }
-      catch(IllegalArgumentException e)
+      catch (IllegalArgumentException e)
       {
         return null;
       }
     }
     else
-      return null;  
+      return null;
   }
 
   public String getName()
@@ -81,7 +83,7 @@ public class Customer
   {
     amount -= value;
   }
-  
+
   public void increaseAmount(int value)
   {
     amount += value;

@@ -16,7 +16,7 @@ public class ATM
 
   public static ATM makeATM(String bankName, int amount)
   {
-    if(amount > 0)
+    if (amount > 0)
       return new ATM(Bank.valueOf(bankName), amount);
     else
       return null;
@@ -26,12 +26,12 @@ public class ATM
   {
     return this.amount;
   }
-  
+
   public void decreaseAmount(int value)
   {
     amount -= value;
   }
-  
+
   public void increaseAmount(int value)
   {
     amount += value;
@@ -41,14 +41,14 @@ public class ATM
   {
     int ATMCost;
 
-    if(this.bank == bank)
+    if (this.bank == bank)
     {
-      int onePercent = (int) Math.ceil(value * 0.01);
+      int onePercent = (int)Math.ceil(value * 0.01);
       ATMCost = (onePercent < 200 ? 200 : onePercent);
     }
     else
-    { 
-      int threePercent = (int) Math.ceil(value * 0.03);
+    {
+      int threePercent = (int)Math.ceil(value * 0.03);
       ATMCost = (threePercent < 500 ? 500 : threePercent);
     }
 

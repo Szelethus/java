@@ -6,7 +6,7 @@ public class Main
 {
   public static void main(String args[])
   {
-    if(args.length < 3 || args.length > 4)
+    if (args.length != 3)
     {
       System.out.println("The program requires exactly 3 arguments.");
       return;
@@ -17,9 +17,9 @@ public class Main
       simulator.simulate(args[1]);
       simulator.close();
     }
-    catch(Exception e)
+    catch (Exception e)
     {
-      System.out.println(e.getClass() + " " + e.getMessage());
+      e.printStackTrace();
     }
   }
 }

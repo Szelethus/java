@@ -1,10 +1,12 @@
 package utils;
 
-public class Node{
+public class Node
+{
   public Node next;
   public int data;
 
-  public Node(int data){
+  public Node(int data)
+  {
     this.data = data;
   }
 };
