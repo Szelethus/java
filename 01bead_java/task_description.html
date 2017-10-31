@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)https://bead.inf.elte.hu/submission-list?asg-key=16 -->
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>BE-AD Assignment Management System</title>
+    <link rel="shortcut icon" href="https://bead.inf.elte.hu/icon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script>
+        window.onload = function() {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+                var texText = mathElements[i].firstChild;
+                katex.render(texText.data, mathElements[i]);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>A feladat szövege</h2></div>
+        </div>
+        <div style="margin-left:0px; background: lightgray">
+            <h1 id="a-feladat-összefoglaló-leírása">A feladat összefoglaló leírása</h1>
+            <p>Ebben a feladatban egy bankrendszer leegyszerűsített működését fogjuk szimulálni. A szimulációban szerepelnek bankok és személyek és egy bankjegykiadó automata, amiből az emberek pénzt tudnak felvenni, vagy pénzt tudnak betenni oda.</p>
+            <p><em>A részfeladatok megoldása során ügyeljünk arra, hogy a megadottakon kívül egyetlen osztály se tartalmazzon más publikus metódust vagy adattagot, illetve egyik csomag se tartalmazzon más osztályokat! Ha az implementáció megköveteli, akkor az osztályok rejtett adattagokkal és metódusokkal szabadon bővíthetők. A megoldást egyetlen <code>.zip</code> állományként kell feltölteni, amely tartalmazza a csomagnak megfelelő könyvtárszerkezetben az összes forráskódot. A fordítás során keletkező <code>.class</code> állományokat viszont már nem szabad mellékelni! A fordításhoz legalább a Java Standard Edition 8 használata kötelező.</em></p>
+            <p>A feladathoz tartozik egy <a href="http://people.inf.elte.hu/bonnie/java/bead/ATM.zip">letölthető segédlet</a>, ahol találunk egy minta bemeneti fájlt és egy ahhoz tartozó kimeneti fájlt, továbbá egyéb segítséget a teszteléshez.</p>
+            <p>A feladat megoldása során be kell tartani a <a href="http://people.inf.elte.hu/bonnie/java/kodminoseg.html">kódolási konvenciókat</a>.
+                <br> A kódolási konvenciók közül külön kiemelendő, hogy ha valamilyen feladat vagy ellenőrzés elvégzésére valamelyik osztály már tartalmaz megfelelő metódust, akkor azt kell használni, nem pedig újra leprogramozni (vagy átmásolni) az adott részt. (Bizonyos helyeken ezt a feladat külön ki is emeli, de erre külön figyelmeztetés nélkül is ügyelni kell.)</p>
+            <h1 id="a-feladat-részletes-ismertetése">A feladat részletes ismertetése</h1>
+            <h2 id="financial.bank.bank"><code>financial.bank.Bank</code></h2>
+            <p>Hozzuk létre a <code>financial.bank</code> csomagban a <code>Bank</code> osztályt, ami egy felsorolási típus, az egyes bankok rövidített neveit tartalmazza.</p>
+            <p>Az osztály lehetséges értékei legyenek a következők: <code>BB</code>, <code>OTP</code>, <code>Erste</code>, <code>CIB</code>, <code>Raiffeisen</code>, <code>Citibank</code>, <code>FHB</code>, <code>MKB</code> és <code>UniCredit</code>.</p>
+            <h2 id="financial.person.customer"><code>financial.person.Customer</code></h2>
+            <p>Hozzuk létre a <code>financial.person</code> csomagban a <code>Customer</code> osztályt, ami egy folyószámlával rendelkező személyt valósít meg. A feladatban egy embernek pontosan egy banknál van folyószámlája.</p>
+            <p>Az osztálynak legyen négy rejtett adattagja:</p>
+            <ul>
+                <li>
+                    <p><code>name</code>: szöveges típusú, a személy nevét tárolja</p>
+                </li>
+                <li>
+                    <p><code>birthYear</code>: egész szám, a személy születési éve</p>
+                </li>
+                <li>
+                    <p><code>bank</code>: <code>Bank</code> típusú, azt tárolja, hogy melyik banknál van a személy (egyetlen) folyószámlája</p>
+                </li>
+                <li>
+                    <p><code>amount</code>: egész szám, a személy aktuális egyenlege a folyószámláján</p>
+                </li>
+            </ul>
+            <p>Készítsük el a következő metódusokat:</p>
+            <ul>
+                <li>
+                    <p>Az osztálynak legyen egy rejtett konstruktora: <code>Customer(String name, int birthYear, Bank bank)</code>, amely ellenőrzés nélkül beállítja az adattagokat a megadott értékekre, a kezdeti egyenleg legyen <code>0</code>.</p>
+                </li>
+                <li>
+                    <p>Legyen egy publikus osztályszintű <code>Customer</code> visszatérési értékű metódus: <code>makeCustomer(String name, int birthYear, String bankName)</code>, ami ellenőrzi a paramétereket, és ha azok megfelelőek, akkor létrehozza a paramétereknek megfelelő <code>Customer</code> objektumot és visszaadja. Ha a paraméterek nem megfelelőek, akkor a metódus adjon vissza <code>null</code> referenciát. A metódusnak ellenőrzéskor a következőket kell megvizsgálnia:</p>
+                    <ul>
+                        <li>
+                            <p>A név csak az angol abc betűiből és szóközből állhat. A név egyes részeit (vezetéknevek, keresztnevek) pontosan egy szóköz választja el egymástól. A név legalább 2, legfeljebb 4 részből áll, melyben minden rész legalább három karakter hosszú, nagybetűvel kezdődik, utána viszont csak kisbetűből állhat.
+                                <br> (segítség: használhatod a <code>String</code> osztály <code>split</code> és <code>charAt</code> metódusát, illetve a <code>Character</code> osztály <code>isUpperCase</code> és <code>isLowerCase</code> metódusát)</p>
+                        </li>
+                        <li>
+                            <p>A születési évnek <code>1918</code> és <code>1998</code> közöttinek kell lennie (az <code>1918</code> és az <code>1998</code> értéket is felveheti).</p>
+                        </li>
+                        <li>
+                            <p>A <code>bankName</code>-nek a Bank típus egyik lehetséges értékével kell egyeznie.
+                                <br> (segítség: szöveges típusból egy adott felsorolási típusba tartozó objektummá konvertáláshoz használhatod az adott felsorolási típus ("automatikusan" létező) osztályszintű <code>valueOf</code> metódusát, amely <code>IllegalArgumentException</code> kivételt dob, ha a szöveg nem egyezik meg a felsorolási típus egyetlen lehetséges értékével sem)</p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <p>Az osztály tartalmazza a következő publikus "getter" metódusokat: <code>getName</code>, <code>getBank</code>, <code>getAmount</code>, amelyek visszaadják az adott értékeket</p>
+                </li>
+                <li>
+                    <p>Legyen egy publikus <code>void</code> visszatérési értékű, egész paraméterű <code>decreaseAmount</code> metódus, amely az adott értékkel csökkenti az egyenleget. Semmiféle ellenőrzést nem kell végezni.</p>
+                </li>
+                <li>
+                    <p>Legyen egy publikus <code>void</code> visszatérési értékű, egész paraméterű <code>increaseAmount</code> metódus, amely az adott értékkel növeli az egyenleget.</p>
+                </li>
+                <li>
+                    <p>Legyen egy publikus szöveges visszatérési értékű, paraméter nélküli <code>toString</code> metódus, ami a következő formában adja vissza a személy szöveges reprezentációját: <code>Név: egyenleg</code></p>
+                </li>
+            </ul>
+            <h2 id="financial.bank.atm"><code>financial.bank.ATM</code></h2>
+            <p>Hozzuk létre a <code>financial.bank</code> csomagban az <code>ATM</code> osztályt, ami egy pénzkiadó automatát valósít meg.</p>
+            <p>Az osztálynak legyen két rejtett adattagja:</p>
+            <ul>
+                <li>
+                    <p><code>bank</code>: <code>Bank</code> típusú érték, azt tárolja, hogy melyik bankhoz tartozik az automata (az automatából más bank ügyfelei is kivehetnek pénzt, csak ők magasabb költséggel)</p>
+                </li>
+                <li>
+                    <p><code>amount</code>: egész típusú érték, azt tárolja, hogy aktuálisan mennyi pénz van az automatában</p>
+                </li>
+            </ul>
+            <p>Készítsük el a következő metódusokat:</p>
+            <ul>
+                <li>
+                    <p>Az osztálynak legyen egy rejtett konstruktora: <code>ATM(Bank bank, int amount)</code>, amely a megadott adatokkal - ellenőrzés nélkül - létrehozza az objektumot.</p>
+                </li>
+                <li>
+                    <p>Legyen egy publikus osztályszintű, <code>ATM</code> visszatérési értékű metódus: <code>makeATM(String bankName, int amount)</code>, ami ellenőrzi a paramétereket, és amennyiben azok megfelelőek, akkor létrehozza és visszaadja az <code>ATM</code> objektumot. Ha a paraméterek nem megfelelőek, akkor a metódus adjon vissza <code>null</code> referenciát. Az ellenőrzéskor a következőket kell megvizsgálni:</p>
+                    <ul>
+                        <li>
+                            <p>A <code>bankName</code>-nek a <code>Bank</code> típus egyik lehetséges értékével kell egyeznie.</p>
+                        </li>
+                        <li>
+                            <p>Az egyenlegnek pozitívnak kell lennie.</p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <p>Legyen egy publikus egész visszatérési értékű, paraméter nélküli <code>getAmount</code> metódus, amely visszaadja az automatában lévő pénz mennyiségét.</p>
+                </li>
+                <li>
+                    <p>Legyen egy publikus <code>void</code> visszatérési értékű, egész paraméterű <code>decreaseAmount</code> metódus, amely az adott értékkel csökkenti az egyenleget (semmiféle ellenőrzést nem kell végezni).</p>
+                </li>
+                <li>
+                    <p>Legyen egy publikus <code>void</code> visszatérési értékű, egész paraméterű <code>increaseAmount</code> metódus, az adott értékkel növeli az egyenleget.</p>
+                </li>
+                <li>
+                    <p>Legyen egy publikus egész visszatérési értékű <code>calculateFee(Bank bank, int value)</code> metódus, amely kiszámolja a pénzfelvételi díjat annak függvényében, hogy a felvevő folyószámlája melyik banknál van (<code>bank</code> paraméter) és mekkora összeget szeretne felvenni (<code>value</code> paraméter). A díjat a következőképpen kell számolni:</p>
+                    <ul>
+                        <li>
+                            <p>ha az automata a pénzfelvevő saját bankjának automatája, akkor a díj az összeg <code>1%</code>-a (felfelé kerekítve), de legalább <code>200 Ft</code>.</p>
+                        </li>
+                        <li>
+                            <p>idegen bank esetén a díj az összeg <code>3%</code>-a (felfelé kerekítve), de legalább <code>500 Ft</code>.</p>
+                        </li>
+                        <li>
+                            <p>(segítség: kerekítéshez használhatod a <code>Math</code> osztály <code>ceil</code> metódusát)</p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <h2 id="financial.simulator"><code>financial.Simulator</code></h2>
+            <p>Hozzuk létre a <code>financial</code> csomagban az <code>Simulator</code> osztályt, ami a bankvilág szimulációját végzi.</p>
+            <p>Az osztálynak legyen három rejtett adattagja:</p>
+            <ul>
+                <li>
+                    <p><code>atm</code>: <code>ATM</code> típusú (a szimulációban egyetlen automata szerepel)</p>
+                </li>
+                <li>
+                    <p><code>customers</code>: olyan adatszerkezet, amiben <code>Customer</code> típusú objektumokat lehet tárolni (ez lehet például tömb, <code>ArrayList</code> vagy <code>LinkedList</code>; tömb esetén felhasználhatjuk, hogy maximum <code>50</code> felhasználó lehet a szimulációban)</p>
+                </li>
+                <li>
+                    <p><code>pwLog</code>: <code>PrintWriter</code> típusú objektum, amelyet logfájl vezetéséhez használunk</p>
+                </li>
+            </ul>
+            <p>Készítsük el a következő metódusokat:</p>
+            <ul>
+                <li>
+                    <p>Az osztálynak legyen egy publikus konstruktora: <code>Simulator(String bankName, int initAmount, String outputFileName)</code></p>
+                    <ul>
+                        <li>
+                            <p>Ha a paraméterek megfelelőek (lásd a <code>makeATM</code> metódusnál írtakat), akkor a konstruktor a hozza létre a megadott bankhoz tartozó automatát a megadott kezdeti összeggel. Ha az adatok nem megfelelőek, akkor a metódus dobjon <code>IllegalArgumentException</code> kivételt.
+                                <br> (segítség: egy <code>ATM</code> objektum paramétereinek ellenőrzésére és helyes paraméterek esetén létrehozására már van megfelelő metódus az <code>ATM</code> osztályban, így kód-duplikáció helyett azt kell meghívni)</p>
+                        </li>
+                        <li>
+                            <p>A <code>Customer</code> objektumokat tartalmazó adatszerkezet kezdetben ne tartalmazzon egyetlen objektumot sem.</p>
+                        </li>
+                        <li>
+                            <p>A <code>PrintWriter</code> objektumot hozzuk létre a megadott fájlnévhez (ha a fájl nem hozható létre, vagy nem nyitható meg íráshoz, akkor a metódus engedje ki a keletkező kivételt).</p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <p>Legyen egy rejtett <code>Customer</code> visszatérési értékű szöveges paraméterű <code>getCustomerByName</code> metódus, amely visszaadja a <code>customers</code> adatszerkezetből annak a <code>Customer</code> objektumnak a referenciáját, amelynek a neve megegyezik a paraméterben megadott szöveggel. Feltételezhetjük, hogy egy név csak egyszer szerepel (ezt az <code>insertCustomer</code> metódus fogja biztosítani). Ha az adatszerkezetben nincs megfelelő objektum, akkor a metódus adjon vissza <code>null</code> referenciát.
+                        <br> Az objektumot nem kell lemásolni, csak a referenciáját kell visszaadni.</p>
+                </li>
+                <li>
+                    <p>Legyen egy publikus <code>void</code> visszatérési értékű <code>insertCustomer(String customerName, int birthYear, String bankName)</code> metódus, amellyel egy <code>Customer</code> objektumot lehet felvinni a nyilvántartásba. A személy akkor vehető fel, ha ilyen nevű még nem szerepel az adatszerkezetben, továbbá ha a személy adatai megfelelőek (lásd a <code>makeCustomer</code> metódusnál írtakat). Ha a személy már szerepel a nyilvántartásban, vagy valamelyik paraméter nem megfelelő, akkor a <code>Customer</code> objektumokat tároló adatszerkezet maradjon változatlan.
+                        <br> (segítség: használd a <code>makeCustomer</code> és <code>getCustomerByName</code> metódusokat)</p>
+                </li>
+                <li>
+                    <p>Legyen egy publikus <code>void</code> visszatérési értékű <code>withdrawCash(String customerName, int amount)</code> metódus, amellyel készpénzt lehet felvenni az automatából.</p>
+                    <ul>
+                        <li>
+                            <p>Ha ilyen nevű személy nem szerepel a nyilvántartásban (használd a <code>getCustomerByName</code> metódust), vagy ha az automatában nincs elég készpénz, vagy a felvenni kívánt összeg <code>0</code> vagy negatív, akkor a metódus nem csinál semmit.</p>
+                        </li>
+                        <li>
+                            <p>Ha ilyen nevű személy szerepel a megfelelő adatszerkezetben és az automatában is van elég pénz, akkor a metódus kiszámítja a pénzfelvétel díját, majd ellenőrzi, hogy az adott személy folyószámláján van-e legalább akkora fedezet, mint amennyi a felvenni kívánt összeg és a pénzfelvételi díj együttesen. Ha a személy egyenlege nem elég nagy, akkor a metódus nem csinál semmit.</p>
+                        </li>
+                        <li>
+                            <p>Ha minden ellenőrzés sikeres, akkor a metódus az adott személy folyószámlájának egyenlegét az összeggel és a készpénzfelvételi díjjal csökkenti (mert a személynek a felvétel díját is meg kell fizetnie), az automatában lévő pénzösszeget viszont csak a felvenni kívánt összeggel csökkenti (mert az automata ténylegesen csak annyit ad ki).</p>
+                        </li>
+                        <li>
+                            <p>Ha történt készpénzfelvétel, akkor a metódus a logfájlba írja ki a felvevő szöveges reprezentációját. Ha nem történt készpénzfelvétel, akkor semmit se írjon a logfájlba.</p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <p>Legyen egy publikus <code>void</code> visszatérési értékű <code>depositCash(String customerName, int amount)</code> metódus, amellyel pénzt lehet betenni az automatába. Ha ilyen nevű személy nem szerepel a nyilvántartásban, vagy az összeg <code>0</code> vagy negatív, akkor a metódus ne csináljon semmit. Ellenkező esetben mind az automatában lévő pénzösszeget, mind az adott személy folyószámláján lévő egyenleget növelje meg az adott értékkel (a pénz betételének nincs díja). Ha történt készpénz betét, akkor a metódus a logfájlba írja ki a betevő személy szöveges reprezentációját. Ellenkező esetben semmit se írjon a logfájlba.</p>
+                </li>
+                <li>
+                    <p>Legyen egy publikus <code>void</code> visszatérési értékű <code>simulate(String inputFileName)</code> metódus, amely a megadott nevű inputfájl alapján szimulációt hajt végre a bank-világban.</p>
+                    <ul>
+                        <li>
+                            <p>A metódus nyissa meg olvasásra a megadott inputfájlt (ha a fájl nem létezik, vagy nem nyitható meg olvasáshoz, akkor a metódus engedje ki a keletkező kivételt).</p>
+                        </li>
+                        <li>
+                            <p>Ha sikerült megnyitni a fájlt, akkor a metódus feladata, hogy azt feldolgozza.</p>
+                        </li>
+                        <li>
+                            <p>Az inputfájl minden sora egy műveletet tartalmaz.</p>
+                        </li>
+                        <li>
+                            <p>A művelet két részből áll, a részeket kettőspont választja el egymástól.</p>
+                        </li>
+                        <li>
+                            <p>A művelet első része 3 értéket vehet fel:</p>
+                            <ul>
+                                <li>
+                                    <p><code>REG</code>: ebben az esetben a művelet egy személy felvétele a nyilvántartásba. Ekkor a művelet második fele a személy adatait tartalmazza vesszővel elválasztva: <code>név,születésiév,banknév</code> sorrendben. Ha a személy adatai megfelelőek, és még nem szerepel a nyilvántartásban, akkor vegyük fel.
+                                        <br> (segítség: az ellenőrzéshez és a felvitelhez használd az <code>insertCustomer</code> metódust)</p>
+                                </li>
+                                <li>
+                                    <p><code>GET</code>: ebben az esetben a művelet a készpénzfelvétel. A művelet második része a felvevő nevét és a felvenni kívánt összeget tartalmazza vesszővel elválasztva. Ha az adatok megfelelőek, akkor történjen meg a készpénz felvétel.
+                                        <br> (segítség: használd a <code>withdrawCash</code> metódust)</p>
+                                </li>
+                                <li>
+                                    <p><code>PUT</code>: ebben az esetben a művelet a készpénz betétele az automatába. Ekkor a művelet második része a betevő személy nevét és a betenni kívánt összeget tartalmazza vesszővel elválasztva. Ha az adatok megfelelőek, akkor történjen meg a készpénz betétel.
+                                        <br> (segítség: használd a <code>depositCash</code> metódust)</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p>Ha bármelyik input-sor hibás, tehát nem a megfelelő tartalmú és/vagy mennyiségű adatot tartalmazza, akkor a sort figyelmen kívül kell hagyni, és a feldolgozás folytatódjon a következő sorral. Rossz lehet például az a sor, amelyik nem pontosan egy kettőspontot tartalmaz, vagy aminél a kettőspont előtt nem a három megadott parancs egyike szerepel, vagy amelyik nem számot tartalmaz ott, ahol számot várunk, vagy ahol nincs meg az összes szükséges adat (például a felvételnél hiányzik az összeg), stb.</p>
+                        </li>
+                        <li>
+                            <p>Ha az inputfájl feldolgozása során olvasási hiba történik, akkor a metódus engedje ki a keletkező kivételt.</p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <p>Legyen egy publikus <code>void</code> visszatérési értékű, paraméter nélküli <code>close</code> metódus, amely lezárja a logfájlhoz létrehozott <code>PrintWriter</code> objektumot.</p>
+                </li>
+            </ul>
+            <h2 id="main.main"><code>main.Main</code></h2>
+            <p>Az eddigi osztályokból most már össze tudunk állítani egy parancssorból is önállóan futtatható programot, amely a parancssori paramétereknek megfelelően elkészíti a szimuláció kezdeti világát, majd egy megadott inputfájlnak megfelelően végrehajtja a szimulációt. Az eredményeket egy megadott outputfájlba menti.</p>
+            <p>Hozzuk létre a <code>main</code> csomagban a <code>Main</code> osztályt, amelyben legyen egy főprogram! A következőképpen kell viselkednie:</p>
+            <ul>
+                <li>
+                    <p>A főprogram három paramétert vár: <code>banknév inputfájl outputfájl</code></p>
+                </li>
+                <li>
+                    <p>Ha nincs megfelelő számú paraméter, akkor írjon ki egy hibaüzenetet és fejeződjön be.</p>
+                </li>
+                <li>
+                    <p>Ha három paramétert kapott, akkor a banknévvel, <code>1 000 000</code> Ft kezdeti egyenleggel és az outputfájl nevével hozza létre a <code>Simulator</code> objektumot. Ha létrehozáskor kivétel keletkezett, akkor a program egy megfelelő hibaüzenet kiírása után szabályosan fejeződön be.</p>
+                </li>
+                <li>
+                    <p>Ha létrejött a <code>Simulator</code> objektum, akkor hívja meg annak <code>simulate</code> metódusát (átadva neki az inputfájlt). Végül hívja meg az objektum <code>close</code> metódusát.
+                        <br> Ha a metódusok végrehajtása során kivétel keletkezik, akkor a program egy megfelelő hibaüzenet kiírása után szabályosan fejeződön be.</p>
+                </li>
+            </ul>
+            <h1 id="tesztelés">Tesztelés</h1>
+            <p>A feladathoz tartozó <a href="http://people.inf.elte.hu/bonnie/java/bead/ATM.zip">letölthető segédlet</a>-ben található <code>input.txt</code>-t másoljuk a megfelelő helyre. Fordítsuk le a programot és indítsuk el a következő paraméterezéssel:
+                <br>
+                <code>java main.Main BB input.txt output.txt</code></p>
+            <p>Ezután a keletkező <code>output.txt</code> fájlt vessük össze a becsomagolt állományban lévővel, hogy lássuk, hogy a várt eredmény jött-e ki.</p>
+            <p>A tömörített állományban található <code>magyarazat.txt</code> nevű fájl is, ami az <code>input.txt</code> sorait tartalmazza magyarázatokkal kiegészítve: minden sornál szerepel a program elvárt viselkedése.</p>
+            <p>Figyelem: a helyes kimeneti fájl még nem feltétlenül jelenti azt, hogy a megoldás helyes.</p>
+            <h2 id="jó-munkát">Jó munkát!</h2></div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

@@ -1,7 +1,7 @@
 package financial.bank;
 
 import financial.bank.Bank;
-import java.lang.Math;
+//import java.lang.Math;
 
 public class ATM
 {
@@ -17,7 +17,16 @@ public class ATM
   public static ATM makeATM(String bankName, int amount)
   {
     if (amount > 0)
-      return new ATM(Bank.valueOf(bankName), amount);
+    {
+      try
+      {
+        return new ATM(Bank.valueOf(bankName), amount);
+      }
+      catch(IllegalArgumentException e)
+      {
+        return null;
+      }
+    }
     else
       return null;
   }

@@ -1,8 +1,12 @@
-Make: ./*/*.java
+Make: ./*/*.java ./*/*/*.java
 	@find . -type f -path "./*/*" -name "*.class" -delete
 	@javac main/Main.java
-	@java main.Main BB ../test/input.txt output.txt
+	@java main.Main BB input.txt output.txt
 format-stdout: ../../.clang-format
-	clang-format -style=file ./*/*.java ./*/*/*.java
+	find . -iname *.java | xargs clang-format
 format: ../../.clang-format
-	clang-format -i -style=file ./*/*.java ./*/*/*.java
+	find . -iname *.java | xargs clang-format -i
+clean: 	
+	find . -type f -path "./*/*" -name "*.class" -delete
+	rm -rf output.txt
+

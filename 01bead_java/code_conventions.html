@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)http://people.inf.elte.hu/bonnie/java/kodminoseg.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Kódolási konvenciók</title></head>
+<body><div class="navbar navbar-default navbar-fixed-top"><style>.body{padding-top:70px}</style>
+
+<div style="margin-left:0px; background: lightgray"><h1 id="must-have">Must have</h1>
+<h2 id="elnevezések">Elnevezések</h2>
+<ul>
+<li>csomag neve csupa kisbetűs, speciális karaktert nem tartalmaz (a "." karaktert leszámítva)
+<ul>
+<li>pl. <code>java.util</code>, <code>hu.elte.java.course2.practical10</code></li>
+</ul></li>
+<li>osztály neve nagy betűvel kezdődik, szóhatáron ismét nagy betű (camelCase)
+<ul>
+<li>pl. <code>ArrayList</code>, <code>LinkedList</code>, <code>String</code></li>
+</ul></li>
+<li>metódus és változó (akár adattag, akár lokális változó) neve kis betűvel kezdődik, szóhatáron nagy betű (camelCase)
+<ul>
+<li>pl. <code>toString</code>, <code>add</code>, <code>multipleByTwo</code></li>
+</ul></li>
+<li>osztály neve tömör és kifejező, jelzi, hogy milyen célt szolgálnak az osztály egyes példányai
+<ul>
+<li>pl. <code>String</code>, <code>Comparator</code></li>
+</ul></li>
+<li>metódus neve tömör és kifejező, jelzi, hogy a metódus milyen feladatot végez el, az adott paraméterek alapján mit módosít az objektumon, illetve milyen visszatérési értéket ad
+<ul>
+<li>pl. <code>add</code>, <code>remove</code>, <code>equals</code>, <code>clone</code></li>
+</ul></li>
+<li>adattag neve tömör és kifejező, jelzi, hogy milyen információt tárol, mi a szerepe a mutatott objektumnak, primitívnek vagy tömbnek (semmiképp sem egy-két betű)
+<ul>
+<li>pl. <code>elements</code> (mondjuk egy lista esetén), <code>employees</code> (mondjuk egy cég esetén)</li>
+</ul></li>
+<li>lokális változó neve tömör, és utal a változóban tárolt információra, vagy legalább a változó típusára, a különböző célokra használt változók egyértelműen megkülönböztethetők
+<ul>
+<li>pl. megfelelő:<br>
+<code>String str; // ha egy Stringet kell összerakni</code><br>
+<code>int i; // ciklusváltozó esetén</code><br>
+<code>String part1, part2, part3; // ha mondjuk egy tömb első, második és</code><br>
+<code>//harmadik elemét mentjük ki beléjük, tehát közös célra használatosak</code></li>
+<li>kerülendő:<br>
+<code>String st, str; // a kettő együtt</code><br>
+<code>String str1, str2, str3; // ha a három változónak később semmi köze egymáshoz</code><br>
+<code>int a; // nem utal sem a szerepére, sem a típusára</code></li>
+</ul></li>
+<li>a hallgató által írt elnevezések vagy egységesen magyar, vagy egységesen angol nyelvűek</li>
+</ul>
+<h2 id="indentálás">Indentálás</h2>
+<ul>
+<li>indentálásra egységesen szóközöket vagy egységesen tabulátorokat használ, a kettőt nem vegyíti</li>
+<li>minden kapcsos zárójellel körülzárt blokk belseje egy szinttel beljebb van húzva</li>
+<li>nyitó kapcsos az előző sor végén áll, vagy új sorban egymagában, de az adott kódban egységesen</li>
+<li>záró kapcsos új sorban áll egymagában</li>
+<li>rövid utasításblokk esetén (pl. kivételkezelés catch ága, ha rövid) elfogadható a nyitó kapcsos, utasítás és záró kapcsos egy sorban</li>
+<li>nincs 80 karakternél hosszabb sor</li>
+<li>lambdák és névtelen osztályok esetén a záró kapcsos után folytatódhat a sor, illetve rövid lambda írható egy sorba az őt tartalmazó utasítással</li>
+</ul>
+<h2 id="strukturálás">Strukturálás</h2>
+<ul>
+<li>ciklusok egymásba ágyazva legfeljebb 2 szint mélyen (ciklusban ciklus, de nincs ciklusban ciklusban ciklus) Ismert algoritmusok (pl. mátrixszorzás) esetén és különösen indokolt esetben a 3 szintű egymásba ágyazás még elfogadható, több semmiképpen.<br>
+Ha szükséges lenne ennél mélyebb egymásba ágyazás, akkor egy részét ki kell emelni egy metódusba.</li>
+<li>elágazások és ciklusok egymásba ágyazva legfeljebb 4 szint mélyen<br>
+Ha szükséges lenne ennél mélyebb egymásba ágyazás, akkor egy részét ki kell emelni egy metódusba.</li>
+<li>nincs 5 sornál hosszabb ismétlődő rész a kódban (ismétlődés az is, ha az eltérés minimális a két kódrészletben, pl. egy-egy változó, általánosítható típus vagy valamilyen rövid részeredmény, ami lokális változóba kiemelhető lenne)</li>
+<li>nincs hosszú, több részletből álló számítás, ami ismétlődne
+<ul>
+<li>pl. rossz</li>
+</ul></li>
+</ul>
+<pre><code>    if ( /*...*/ ) {
+        String result = "A person whose name is " + name + " and who has a " +
+            salary + "$ salary bought a " + price + "$ car".
+    } else {
+        String result = "A person whose name is " + name + " and who has a " +
+            salary + "$ salary bought a " + price + "$ boat".
+    }
+    // A sorok végén lévő eltérő rész egy lokális változóba kiszámítható előre.</code></pre>
+<ul>
+<li>nincs 25 sornál hosszabb metódus</li>
+<li>nincs 1000 sornál hosszabb osztály</li>
+</ul>
+<h2 id="láthatóságok">Láthatóságok</h2>
+<ul>
+<li>az adott osztálytól elvárt publikus műveleteken kívül az osztály nem tartalmaz más publikus műveleteket</li>
+<li>az osztály nem tartalmaz publikus adattagokat, kivéve, ha a feladat ennek ellenkezőjét kimondottan kéri</li>
+</ul>
+<h2 id="biztonság">Biztonság</h2>
+<ul>
+<li>a belső állapotot semelyik metódus sem szivárogtatja ki
+<ul>
+<li>Egy objektum ha egy nem rejtett metódusában paraméterül kap egy másik objektumot, amit le akar menteni egy adattagjába, vagy kiad egy adattagjában tárolt objektumot, azokat másolni kell, hogy a belső állapot kintről ne legyen módosítható.</li>
+<li>A másolásra értelemszerűen nincs szükség (és ezért nem is szabad), ha a kapott, illetve kiadott objektum immutable, azaz módosíthatatlan, pl. <code>String</code>, <code>Integer</code>.</li>
+</ul></li>
+</ul>
+<h2 id="hatékonyság">Hatékonyság</h2>
+<ul>
+<li>immutable objektumokat (pl. <code>String</code>) ne másoljunk</li>
+<li>a kód nem számítja ki többször ugyanazt, ha közben a kiszámítandó érték biztosan nem változott
+<ul>
+<li>pl. rossz</li>
+</ul></li>
+</ul>
+<pre><code>    Point first = line.getPoints()[0];
+    Point second = line.getPoints()[1];
+    Point third = line.getPoints()[2];
+    ...
+    // Itt a getPoints() egy potenciálisan bonyolult számítást végző művelet,
+    // és feleslegesen hívódik meg háromszor. Az utasítássor elején egyszer
+    // kellene meghívni, és az eredményül kapott tömböt lementeni, aztán azt
+    // feldolgozni.
+
+    int len = line.getPoints().length;
+    for (int i = 0; i &lt; len; ++i) {
+        Point point = line.getPoints()[i];
+        ...
+    }
+    // Itt minden iterációban meghívódik a getPoints() utasítás, teljesen
+    //feleslegesen. Itt is kimenthető lenne az értéke egy lokális változóba előre.
+
+    // Figyelem! A fenti példák természetesen NEM csak tömbök esetén igazak,
+    // bármilyen visszatérési értékű metódus esetén felléphet, ha tudjuk, hogy
+    // az eredmény minden hívásnál ugyanaz.</code></pre>
+<ul>
+<li>ha tudhatóan sok vagy hosszú, illetve ha ismeretlen darabszámú <code>String</code>-eket konkatenálunk össze, azokat <code>StringBuilder</code>-rel kell összekapcsolni
+<ul>
+<li>pl. ha egy fájl sorait fűzzük össze, és nem tudjuk, milyen hosszú a fájl</li>
+</ul></li>
+</ul>
+<h2 id="általános-elvek">Általános elvek</h2>
+<ul>
+<li>statikus mezőt vagy statikus metódust nem hivatkozunk objektumreferencián keresztül
+<ul>
+<li>pl. rossz:<br>
+<code>Integer i = 5;</code><br>
+<code>int j = i.parseInt("123");</code></li>
+</ul></li>
+<li>rövid magyarázó kommentek a bonyolult kódrészletekhez (az időkorlátok miatt ezt zárthelyin nem várjuk el)</li>
+</ul>
+<h1 id="nice-to-have">Nice to have</h1>
+<h2 id="elnevezések-1">Elnevezések</h2>
+<ul>
+<li>static final adattag csupa nagy betűs, szóhatáron aláhúzás pl. STATIC_FINAL_VARIABLE</li>
+<li>típusparaméter egyetlen nagy betűből áll pl. T, E, W</li>
+<li>minden elnevezés angol nyelvű</li>
+</ul>
+<h2 id="indentálás-1">Indentálás</h2>
+<ul>
+<li>minden utasítás külön sorban</li>
+<li>minden ciklus és elágazás utasításai kapcsos zárójelek közé vannak zárva, akkor is, ha csak egy utasítás van</li>
+<li>lambdák és névtelen osztályok esetén a záró kapcsos után folytatódhat a sor, illetve rövid lambda írható egy sorba az őt tartalmazó utasítással</li>
+</ul>
+<h2 id="strukturálás-1">Strukturálás</h2>
+<ul>
+<li>nincs 2 sornál hosszabb ismétlődő rész a kódban</li>
+</ul>
+<h2 id="láthatóságok-1">Láthatóságok</h2>
+<ul>
+<li>minden eleme a kódnak a legszigorúbb láthatósággal van védve, ami még a kód működéséhez elegendő</li>
+<li>adattagok mindig privátak, kivéve, ha a feladat ennek ellenkezőjét kimondottan kéri</li>
+</ul>
+<h2 id="biztonság-1">Biztonság</h2>
+<ul>
+<li>a Closable interfészt megvalósító osztályok (pl. Scanner, PrintWriter) objektumain minden esetben meghívja a használatuk végén a close() metódust try-catch-finally vagy try-with-resource szerkezettel</li>
+</ul>
+<h2 id="hatékonyság-1">Hatékonyság</h2>
+<ul>
+<li>ha van az adott feladatra egy ismert vagy egyszerű algoritmus, amely nagyságrendekkel gyorsabb, mint az elsőre megírt, akkor használjuk azt!</li>
+</ul>
+<h2 id="általános-elvek-1">Általános elvek</h2>
+<ul>
+<li>törekedjünk a kód tömörségére (nem minden áron!) A rövid kód általában könnyebben olvasható, értelmezhető, később egyszerűbb módosítani. Ha olyan kódrészleteket látunk, melyek egy gyors változtatással rövidebben is megírhatóak, azt érdemes megtenni.</li>
+<li>az osztályok egy-egy egyértelmű feladatot látnak el (Single Responsibility Principle)</li>
+<li>a kód "öndokumentáló", elolvasva könnyen értelmezhető, hogy milyen feladatot végez el</li>
+<li>dokumentációs kommentek (JavaDoc) az összetett metódusokhoz és osztályokhoz (az időkorlátok miatt ezt zárthelyin nem várjuk el)</li>
+</ul></div>
+
+</div></body></html>

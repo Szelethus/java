@@ -1,19 +1,16 @@
 package financial.person;
 
 import financial.bank.Bank;
-import java.lang.Enum;
+//import java.lang.Enum;
 
 public class Customer
 {
-  /*     PRIVATE FIELDS    */
 
   private String name;
   private int birthYear;
   private Bank bank;
   private int amount;
-
-  /*     PRIVATE METHODS     */
-
+  
   private Customer(String name, int birthYear, Bank bank)
   {
     this.name = name;
@@ -30,8 +27,7 @@ public class Customer
     {
       if (subName.length() < 3)
         return false;
-      if (subName.substring(0, 1).matches("[A-Z]") == false
-          || Character.isUpperCase(subName.charAt(0)) == false)
+      if (subName.substring(0, 1).matches("[A-Z]") == false)
         return false;
       if (subName.substring(1).matches("[a-z]+") == false)
         return false;
@@ -43,8 +39,6 @@ public class Customer
   {
     return year >= 1918 && year <= 1998;
   }
-
-  /*     PUBLIC METHODS     */
 
   public static Customer makeCustomer(
       String name, int birthYear, String bankName)
