@@ -3,6 +3,6 @@ Make: ./*/*.java
 	@javac main/Main.java
 	@java main.Main BB ../test/input.txt output.txt
 format-stdout: .clang-format
-	clang-format -style=file ./*/*.java ./*/*/*.java
+	find -name "*.java" | xargs clang-format -style=file
 format: .clang-format
-	clang-format -i -style=file ./*/*.java ./*/*/*.java ./*/*/*/*.java
+	find -name "*.java" | xargs clang-format -i -style=file
