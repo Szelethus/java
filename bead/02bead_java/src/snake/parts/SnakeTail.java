@@ -2,6 +2,7 @@ package snake.parts;
 
 import snake.Tile;
 import snake.util.Position;
+import snake.util.PositionMap;
 
 public class SnakeTail implements Tile
 {
@@ -26,5 +27,11 @@ public class SnakeTail implements Tile
   protected boolean isAt(Position pos)
   {
     return position.equals(pos);
+  }
+
+  @Override
+  public void print(PositionMap<Character> map)
+  {
+    map.put(position, '@');
   }
 }

@@ -5,11 +5,10 @@ Make: ./*/*.java ./*/*/*.java
 tests: tests/ToApplesTest.java
 	javac -cp .:junit-4.12.jar:hamcrest-core-1.3.jar tests/ToApplesTest.java
 run-tests:
-	java -cp .:junit-4.12.jar:hamcrest-core-1.3.jar	org.junit.runner.JUnitCore tests.ToApplesTest.java
-
-format-stdout: ../../.clang-format
+	java -cp .:junit-4.12.jar:hamcrest-core-1.3.jar	org.junit.runner.JUnitCore tests.ToApplesTest
+format-stdout: ../../../.clang-format
 	find . -iname *.java | xargs clang-format
-format: ../../.clang-format
+format: ../../../.clang-format
 	find . -iname *.java | xargs clang-format -i
 clean: 	
 	find . -type f -path "./*/*" -name "*.class" -delete

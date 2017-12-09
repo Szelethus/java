@@ -36,4 +36,22 @@ public class Position
   {
     return other != null && row == other.row && column == other.column;
   }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    if(obj != null && obj instanceof Position)
+    {
+      Position other = (Position) obj;
+      return this.row == other.row && this.column == other.column;
+    }
+    else
+      return false;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return row * 5 + column * 10;
+  }
 }

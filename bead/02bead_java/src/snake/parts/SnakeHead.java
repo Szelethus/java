@@ -7,6 +7,7 @@ import snake.Game;
 import snake.util.Direction;
 import snake.exception.CollisionException;
 import snake.exception.InvalidIndexException;
+import snake.util.PositionMap;
 
 public class SnakeHead extends SnakeTail implements Snake
 {
@@ -47,18 +48,28 @@ public class SnakeHead extends SnakeTail implements Snake
     }
   }
 
-  private void move(int x, int y) throws CollisionException
+  private void move(int row, int col) throws CollisionException
   {
     try
     {
-      Position pos = new Position(x, y);
+      Position pos = new Position(row, col);
       if(isAt(pos))
         throw new CollisionException();
-     //TODO 
+     
+      //TODO
+      Position tmp = this.position;
+      this.position = pos;
+      tail.position = tmp;
     }
     catch(InvalidIndexException e)
     {
       throw new CollisionException();
     }
+  }
+
+  @Override
+  public void print(PositionMap<Character> map)
+  {
+    map.put(position, '~');
   }
 }

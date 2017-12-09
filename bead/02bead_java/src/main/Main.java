@@ -13,6 +13,8 @@ import snake.Game;
 public class Main {
 
 	public static void main(String[] args) {
+    try
+    {
 		if (args.length != 3) {
 			System.err.println("Three arguments required.");
 			return;
@@ -29,6 +31,11 @@ public class Main {
 		String output = game.play(moves);
 
 		write(outputFile, output);
+    }
+    catch(Exception e)
+    {
+      e.printStackTrace();
+    }
 	}
 
 	private static List<String> read(String file) {

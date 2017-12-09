@@ -8,6 +8,7 @@ import snake.util.Position;
 import snake.util.Direction;
 import snake.exception.CollisionException;
 import snake.exception.InvalidIndexException;
+import snake.util.PositionMap;
 
 public class Game
 {
@@ -65,7 +66,7 @@ public class Game
     apples.remove(0);
   }
 
-  public String play(List<String> moves) 
+  public String play(List<String> moves) throws InvalidIndexException
   {
     StringBuilder ret = new StringBuilder();
 
@@ -83,6 +84,7 @@ public class Game
           snake.move(Direction.valueOf(data[0]));
         else
           continue;
+        printState(ret);
       }
       catch(IllegalArgumentException e)
       {
@@ -93,11 +95,25 @@ public class Game
         ret.append("GAME OVER");
       }
     }
-    return "";//TODO
+    return ret.toString();
   }
 
-  private void printState(StringBuilder str)
+  private void printState(StringBuilder str) throws InvalidIndexException
   {
-    //TODO
+    PositionMap<Character> map = new PositionMap<Character>(' ');
+    snake.print(map);
+    for(Apple apple : apples)
+      apple.print(map);
+
+    for(int row = 0; row < Position.SIZE_OF_BOARD; ++row)
+    {
+      for(int col = 0; col < Position.SIZE_OF_BOARD; ++col)
+      {
+        Position pos = new Position(row, col);
+        str.append(map.get(pos));
+      }
+      str.append(System.lineSeparator());
+    }
+    str.append("==========" + System.lineSeparator());
   }
 }
