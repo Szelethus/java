@@ -56,10 +56,18 @@ public class SnakeHead extends SnakeTail implements Snake
       if (tail.isAt(pos))
         throw new CollisionException();
 
-      // TODO
-      Position tmp = this.position;
+      if (game.getApple() != null && pos.equals(game.getApple().getPosition()))
+      {
+        SnakeTailPart tailPart = new SnakeTailPart(position, tail);
+        tail = tailPart;
+        game.ateApple();
+      }
+      else
+      {
+        Position tmp = this.position;
+        tail.moveTo(tmp);
+      }
       this.position = pos;
-      tail.position = tmp;
     }
     catch (InvalidIndexException e)
     {
