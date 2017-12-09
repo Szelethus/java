@@ -1,0 +1,352 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>BE-AD Assignment Management System</title>
+    <link rel="shortcut icon" href="icon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+</head>
+
+</html>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Leírás</h2>
+                <div style="margin-left:0px; background: lightgray">
+                    <h1 id="a-feladat-összefoglaló-leírása">A feladat összefoglaló leírása</h1>
+                    <p>Ebben a feladatban a közismert Snake játék működését fogjuk szimulálni. A játékban egy rögzített méretű pályán kell egy kígyót irányítani, mely almákat szed össze, és eszik meg, egyre növelve a méretét, miközben nem ütközhet sem falba, sem saját magába.</p>
+                    <p>A feladat megoldása során be kell tartani a <a href="http://people.inf.elte.hu/bonnie/java/kodminoseg.html">kódolási konvenciókat</a>. Ennek megfelelően ügyeljünk arra, hogy a megadottakon kívül egyetlen osztály se tartalmazzon más publikus metódust vagy adattagot, illetve egyik csomag se tartalmazzon más osztályokat! Ha az implementáció megköveteli, akkor az osztályok rejtett adattagokkal és metódusokkal szabadon bővíthetők.</p>
+                    <p>A fordításhoz legalább a Java Standard Edition 8 használata kötelező.</p>
+                    <p>A feladathoz tartozik egy <a href="http://people.inf.elte.hu/koguaai/java/snake.zip">letölthető segédlet</a>, ahol találunk több minta bemeneti fájlt és kimeneti fájlt, valamint egy futtató <code>Main</code> osztályt, egy magyarázó leírással kiegészítve.</p>
+                    <h1 id="beadás-módja">Beadás módja</h1>
+                    <ul>
+                        <li>
+                            <p>A megoldást egyetlen <code>.zip</code> állományként kell feltölteni, amely tartalmazza a csomagnak megfelelő könyvtárszerkezetben az összes forráskódot.</p>
+                        </li>
+                        <li>
+                            <p>A <code>.zip</code> állomány <em>NE</em> tartalmazzon egy (se több) legkülső összefogó mappát, közvetlen az elvárt csomagszerkezetnek megfelelő könyvtárak tagozódjanak alá. (Ne legyen egy <code>bead</code>, <code>bead_NEPTUN</code> vagy bármi hasonló, legkülső mappa a <code>zip</code>-ben.)</p>
+                        </li>
+                        <li>
+                            <p>A fordítás során keletkező <code>.class</code> állományokat és a JUnit futtatásához használatos két <code>.jar</code> fájlt sem szabad mellékelni!</p>
+                        </li>
+                    </ul>
+                    <h1 id="a-feladat-részletes-ismertetése">A feladat részletes ismertetése</h1>
+                    <h2 id="segédtípusok">1. Segédtípusok</h2>
+                    <h3 id="snake.exception.collisionexception"><code>snake.exception.CollisionException</code></h3>
+                    <p>Készítsük el a <code>snake.exception.CollisionException</code> ellenőrzött kivételosztályt (származzon az <code>Exception</code> osztályból). Ez a kivétel fogja jelezni, ha a kígyó nekiütközik valaminek.</p>
+                    <h3 id="snake.exception.invalidindexexception"><code>snake.exception.InvalidIndexException</code></h3>
+                    <p>Készítsük el a <code>snake.exception.InvalidIndexException</code> <em>nem</em> ellenőrzött kivételosztályt (származzon a <code>RuntimeException</code> osztályból). Ez a kivétel fogja jelezni, ha a játéktér határain kívülre próbálnánk menni.</p>
+                    <h3 id="snake.util.position"><code>snake.util.Position</code></h3>
+                    <p>Hozzuk létre a <code>snake.util.Position</code> osztályt, mely egy oszlop- és sorkoordinátáival azonosított pozíciót fog reprezentálni a játéktéren.</p>
+                    <p>Adattagjai:</p>
+                    <ul>
+                        <li>
+                            <p><code>SIZE_OF_BOARD</code>: publikus, osztályszintű, módosíthatatlan, egész szám típusú. A játéktér sorainak és oszlopainak maximális darabszáma. Értéke <code>10</code>.</p>
+                        </li>
+                        <li>
+                            <p><code>row</code>: módosíthatatlan, egész szám típusú. A pozíció sorindexe.</p>
+                        </li>
+                        <li>
+                            <p><code>column</code>: módosíthatatlan, egész szám típusú. A pozíció oszlopindexe.</p>
+                            <p><em>Megjegyzés:</em> mivel minden adattagja módosíthatatlan, a <code>Position</code> egy <em>immutable</em> típus.</p>
+                        </li>
+                    </ul>
+                    <p>Metódusai:</p>
+                    <ul>
+                        <li>
+                            <p>Legyen egy publikus, két egész szám paramétert fogadó konstruktora. A két paraméter a sor- és oszlopindex. Ezek akkor megfelelőek, ha értékük nemnegatív és kisebb, mint a <code>SIZE_OF_BOARD</code> értéke. Ha valamelyik nem megfelelő, dobjunk <code>snake.exception.InvalidIndexException</code> kivételt. Különben mentsük le az értéküket a megfelelő adattagokba.</p>
+                        </li>
+                        <li>
+                            <p>Legyen egy publikus <code>getRow</code> és egy publikus <code>getColumn</code> metódusa a megfelelő adattagok lekérdezésére.</p>
+                        </li>
+                        <li>
+                            <p>Legyen egy publikus, logikai visszatérési értékű <code>isSame</code> metódusa, mely egy <code>Position</code> objektumot vár paraméterül. Ha a paraméter nem <code>null</code>, és sor-, illetve oszlopindexe megegyezik az aktuális objektuméval, akkor térjünk vissza igazzal, máskülönben hamissal.</p>
+                            <p><em>Megjegyzés:</em> a feladat egy későbbi fázisában szükség lesz a <code>Position</code> osztály <code>hashCode</code> és <code>equals</code> metódusainak megírására is. Ha ezt megtesszük előre, akkor bárhol, ahol két <code>Position</code> objektumot kell összehasonlítani, tetszőlegesen használható az <code>isSame</code> helyett az előre megírt <code>equals</code> is.</p>
+                        </li>
+                    </ul>
+                    <h3 id="snake.util.direction"><code>snake.util.Direction</code></h3>
+                    <p>Készítsük el a <code>snake.util.Direction</code> felsorolási típust, melynek lehetséges értékei a következők legyenek: <code>UP</code>, <code>DOWN</code>, <code>RIGHT</code> és <code>LEFT</code>.</p>
+                    <h2 id="alapszerkezet">2. Alapszerkezet</h2>
+                    <p>Hozzuk létre a feladat alapszerkezetét adó típusokat!</p>
+                    <h3 id="snake.game"><code>snake.Game</code></h3>
+                    <p>A program vezérlését a <code>snake.Game</code> osztály fogja végezni. Ezt egyelőre még csak hozzuk létre, később fogjuk metódusokkal kiegészíteni.</p>
+                    <h3 id="snake.tile"><code>snake.Tile</code></h3>
+                    <p>Készítsük el a <code>snake.Tile</code> interfészt, mely a játéktér egy mezőjét fogja ábrázolni. Legyen egyetlen metódusa, a <code>Position</code> visszatérési értékű, paraméter nélküli <code>getPosition</code>, melynek implementációi a játékmező aktuális pozícióját fogják visszaadni.</p>
+                    <h3 id="snake.snake"><code>snake.Snake</code></h3>
+                    <p>A kígyót a <code>snake.Snake</code> interfészen keresztül szeretnénk majd vezérelni. Ez az interfész származzon a <code>Tile</code> interfészből.</p>
+                    <p>Metódusai:</p>
+                    <ul>
+                        <li>
+                            <p>Legyen egy publikus, visszatérési érték nélküli, <code>Direction</code> paramétert fogadó <code>move</code> metódusa, mely dobhat <code>CollisionException</code>-t. Ennek a metódusnak az implementációi majd az adott irányba fogják mozdítani a kígyót 1 mezőnyit, ha ez nem okoz ütközést.</p>
+                        </li>
+                        <li>
+                            <p>Legyen egy publikus, visszatérési érték nélküli, kétparaméteres <code>move</code> metódusa, mely dobhat <code>CollisionException</code>-t. Az első paramétere <code>Direction</code> típusú, a második egy egész szám (<code>times</code>). Ennek a metódusnak az implementációi majd az adott irányba fogják mozdítani a kígyót <code>times</code> mezőnyit, ha ez nem okoz ütközést.</p>
+                        </li>
+                    </ul>
+                    <h3 id="snake.apple"><code>snake.Apple</code></h3>
+                    <p>Készítsük el a <code>Tile</code> interfészt megvalósító <code>snake.Apple</code> osztályt, mely az almákat fogja ábrázolni.</p>
+                    <p>Adattagjai:</p>
+                    <ul>
+                        <li><code>position</code>: módosíthatatlan, <code>Position</code> típusú. Az alma pozícióját tárolja.</li>
+                    </ul>
+                    <p>Metódusai:</p>
+                    <ul>
+                        <li>
+                            <p>Legyen egy publikus konstruktora, melynek egyetlen <code>Position</code> típusú paramétere van. Tárolja le a paramétert az adattagba.</p>
+                        </li>
+                        <li>
+                            <p>Valósítsa meg a <code>Tile</code> interfészből örökölt <code>getPosition</code> metódust: térjen vissza az adattag értékével.</p>
+                        </li>
+                    </ul>
+                    <h2 id="a-kígyó">3. A kígyó</h2>
+                    <p>Készítsük el a kígyó részeit ábrázoló alábbi két típust. Ezek még csak a kígyó alapvető mozgatásáért felelnek, azzal, hogy a kígyó megegye az almákat, és azoktól megnőjön, később foglalkozunk majd.</p>
+                    <h3 id="snake.parts.snaketail"><code>snake.parts.SnakeTail</code></h3>
+                    <p>Hozzuk létre a <code>Tile</code> interfészt megvalósító <code>snake.parts.SnakeTail</code> osztályt, mely a kígyó farkát fogja ábrázolni.</p>
+                    <p>Adattagjai:</p>
+                    <ul>
+                        <li><code>position</code>: <code>Position</code> típusú. A kígyó farkának aktuális pozícióját tárolja.</li>
+                    </ul>
+                    <p>Metódusai:</p>
+                    <ul>
+                        <li>
+                            <p>Legyen egy publikus konstruktora, melynek egyetlen <code>Position</code> típusú paramétere van. Tárolja le a paramétert az adattagba.</p>
+                        </li>
+                        <li>
+                            <p>Valósítsa meg a <code>Tile</code> interfészből örökölt <code>getPosition</code> metódust: térjen vissza az adattag értékével.</p>
+                        </li>
+                        <li>
+                            <p>Legyen egy védett, visszatérési érték nélküli, <code>Position</code> paraméterű <code>moveTo</code> metódusa. Mozgassa a kígyó farkát a megadott pozícióra, azaz módosítsa az adattagot a paraméter értékére.</p>
+                        </li>
+                        <li>
+                            <p>Legyen egy védett, logikai visszatérési értékű, <code>Position</code> paraméterű <code>isAt</code> metódusa. Ellenőrizze, hogy a kígyó az adott pozíción van-e, azaz, hogy az aktuális pozíciója egyenlő-e a paraméterül kapottal.</p>
+                        </li>
+                    </ul>
+                    <h3 id="snake.parts.snakehead"><code>snake.parts.SnakeHead</code></h3>
+                    <p>Hozzuk létre a <code>snake.parts.SnakeHead</code> osztályt, mely a kígyó fejét ábrázolja. Valósítsa meg a <code>Snake</code> interfészt, hiszen a kígyónak a fejét akarjuk irányítani. Származzon a <code>SnakeTail</code> osztályból, hogy bizonyos örökölt metódusokat ne kelljen újradefiniálnunk.</p>
+                    <p>Adattagjai:</p>
+                    <ul>
+                        <li>
+                            <p><code>game</code>: módosíthatatlan, <code>Game</code> típusú. A játék vezérléséért felelős objektumot fogja tárolni.</p>
+                        </li>
+                        <li>
+                            <p><code>tail</code>: <code>SnakeTail</code> típusú. A kígyó farkát tárolja.</p>
+                        </li>
+                    </ul>
+                    <p>Metódusai:</p>
+                    <ul>
+                        <li>
+                            <p>Legyen egy publikus, <code>SnakeHead(Position position, Position positionOfTail, Game game)</code> konstruktora. Az első paraméter a fej pozíciója: adja át az ősosztály konstruktorának paraméterül. A <code>game</code> paramétert mentse le a megfelelő adattagba. Végül hozzon létre egy új <code>SnakeTail</code> objektumot, a <code>positionOfTail</code> értékével felparaméterezve, melyet tároljon el a <code>tail</code> adattagjában.</p>
+                        </li>
+                        <li>
+                            <p>Valósítsa meg a <code>Snake</code> interfészből örökölt <code>move(Direction dir, int times)</code> metódust. Hívja meg <code>times</code>-szor az egyparaméteres <code>move</code> metódust. Ha a <code>times</code> értéke <code>0</code> vagy negatív, ne hívja meg egyszer se.</p>
+                        </li>
+                        <li>
+                            <p>Valósítsa meg a <code>Snake</code> interfészből örökölt <code>move(Direction dir)</code> metódust. Ez a metódus ágazzon szét aszerint, hogy a <code>dir</code> paraméter értéke milyen. Minden esetben hívjuk meg az alábbiakban meghatározott, két egész paramétert váró <code>move</code> segédmetódust a következő paraméterezéssel:</p>
+                            <ul>
+                                <li><code>UP</code> esetén: <code>row - 1, column</code></li>
+                                <li><code>DOWN</code> esetén: <code>row + 1, column</code></li>
+                                <li><code>RIGHT</code> esetén: <code>row, column + 1</code></li>
+                                <li><code>LEFT</code> esetén: <code>row, column - 1</code></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p>Egy privát, két egész paramétert váró <code>move</code> segédmetódusban hozzunk létre a kapott paraméterekkel egy új <code>Position</code> objektumot, majd végezzük el az alábbiakat.</p>
+                            <ul>
+                                <li>
+                                    <p>Ha <code>InvalidIndexException</code>-t kapunk, dobjunk helyette <code>CollisionException</code>-t (a kígyó nekiment a pálya szélének).</p>
+                                </li>
+                                <li>
+                                    <p>Ellenőrizzük az <code>isAt</code> metódussal, hogy a kígyó farka a célul kitűzött pozíción van-e, ha igen, szintén dobjunk <code>CollisionException</code>-t (a kígyó nekiütközött saját magának).</p>
+                                </li>
+                                <li>
+                                    <p>Különben mozgassuk a kígyót az új pozícióra, a farkát (<code>tail</code> adattag) pedig arra a pozícióra, ahol eddig a feje volt.</p>
+                                    <p><em>Megjegyzés:</em> Gondoljuk végig előre, hogy milyen paraméterekkel és milyen sorrendben érdemes a kígyó fejét és farkát mozgató metódusokat meghívni.</p>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h2 id="game-osztály">4. Game osztály</h2>
+                    <p>Egészítsük ki a <code>Game</code> osztályt.</p>
+                    <p>Adattagjai:</p>
+                    <ul>
+                        <li><code>apples</code>: módosíthatatlan, <code>Apple</code> objektumokat tartalmazó lista. A játékban elérhető almákat tartalmazza.</li>
+                        <li><code>snake</code>: módosíthatatlan, <code>Snake</code> típusú. A játékban a kígyót fogja tárolni.</li>
+                    </ul>
+                    <p>Metódusai:</p>
+                    <ul>
+                        <li>
+                            <p>Legyen egy osztályszintű, <code>Apple</code> típusú objektumok listájával visszatérő <code>toApples(List&lt;String&gt; lines)</code> metódusa. Ez a listában megkapott szövegeket almákká alakítja. Ha a kapott lista <code>null</code>, a metódus dobjon <code>IllegalArgumentException</code>t. Különben dolgozza fel a lista elemeit a következőképp:</p>
+                            <ul>
+                                <li>
+                                    <p>Mindegyik szöveg pontosan két darab, szóközzel elválasztott egész számot tartalmaz (pl. <code>5 2</code>). Ezek az alma sor-, illetve oszlopindexe.</p>
+                                </li>
+                                <li>
+                                    <p>A metódus hozzon létre ezek segítségével egy megfelelő <code>Position</code> objektumot, majd azzal felparaméterezve egy új <code>Apple</code> objektumot, és tegye ezt az eredménylistába.</p>
+                                </li>
+                                <li>
+                                    <p>Ha valamelyik szöveg mégsem a megadott alakú (pl. több vagy kevesebb szóközzel elválasztott részből áll, nem számok a részei stb.), vagy bármelyik index nem megfelelő (a <code>Position</code> konstruktora kivételt dob), akkor azt a szöveget hagyjuk figyelmen kívül (ilyenkor ne tegyünk semmit az eredménylistába)!</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p>Legyen egy publikus <code>Game(List&lt;String&gt; apples)</code> konstruktora. A paraméterül kapott listát alakítsa almák listájává a <code>toApples</code> metódusnál leírt konverziós szabályok szerint, majd mentse le a megfelelő adattagba. Ezenkívül hozzon létre egy <code>SnakeHead</code> objektumot, és a létrejött objektum konstruktorának adja át három paraméterként rendre:</p>
+                            <ul>
+                                <li>a <code>0, 1</code> pozíciót (mindig innen indul majd a kígyó feje);</li>
+                                <li>a <code>0, 0</code> pozíciót (mindig innen indul majd a kígyó farka);</li>
+                                <li>az aktuális <code>Game</code> objektumot.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p>Legyen egy <code>Apple</code> visszatérési értékű, paraméter nélküli <code>getApple</code> metódusa. Ez mindig térjen vissza az <code>apples</code> adattagban tárolt lista első elemével, amennyiben a lista nem üres. Ha a lista üres, adjon vissza <code>null</code>-t.</p>
+                            <p><em>Megjegyzés:</em> a lista első eleme a nulladik indexű elem.</p>
+                        </li>
+                        <li>
+                            <p>Legyen egy visszatérési érték nélküli, paraméter nélküli <code>ateApple</code> metódusa. Ennek meghívása jelenti azt, hogy a kígyó megette az aktuális almát (mely mindig az <code>apples</code> lista első eleme). A metódus törölje ki az <code>apples</code> lista első elemét. (A lista eggyel rövidebb lesz.)</p>
+                            <p><em>Megjegyzés:</em> a lista első eleme a nulladik indexű elem.</p>
+                        </li>
+                        <li>
+                            <p>Legyen egy szöveggel visszatérő <code>play(List&lt;String&gt; moves)</code> metódusa, mely azért felel, hogy a paraméterül kapott mozgató utasításokat kiadja a kígyónak, és egy szöveges kimenetet állítson elő. A szöveges kimenetet majd a főprogram fogja egy fájlba írni.</p>
+                            <ul>
+                                <li>
+                                    <p>A <code>moves</code> lista minden egyes sora két alakot vehet fel. Vagy egyetlen irányt jelző szóból áll (a <code>Direction</code> felsorolási típus egyik konstansa), vagy egy irányt jelző szóból és egy szóközzel elválasztott egész számból (ismétlésszám).</p>
+                                    <p>Pl.</p>
+                                    <p><code>UP</code></p>
+                                    <p><code>RIGHT 5</code></p>
+                                </li>
+                                <li>
+                                    <p>Ha valamelyik sor nem ilyen alakú, hagyjuk figyelmen kívül! A helyes sorokat dolgozzuk fel, és hívjuk meg a <code>snake</code> változóban tárolt kígyó megfelelő <code>move</code> metódusát értelemszerűen felparaméterezve.</p>
+                                    <p><em>Megjegyzés:</em> a megfelelő szövegrészletek <code>Direction</code> típusú objektummá alakításához használhatjuk a <code>Direction.valueOf</code> metódust.</p>
+                                    <p><em>Megjegyzés:</em> nem kell ellenőriznünk, hogy az ismétlésszám pozitív-e. Negatív vagy <code>0</code> ismétlésszám esetén egyszerűen nem fog elmozdulni a kígyó.</p>
+                                </li>
+                                <li>
+                                    <p>Ha <code>CollisionException</code>-t kapunk, a metódus fűzze hozzá a kimenethez a <code>&quot;GAME OVER&quot;</code> szöveget, és térjen vissza az eddig elkészített szöveggel.</p>
+                                </li>
+                                <li>
+                                    <p>Minden egyes helyes sor feldolgozása után írjuk ki a játéktábla aktuális állását (ha nem történt ütközés). Ehhez hozzuk létre a privát, visszatérési érték nélküli, <code>StringBuilder</code> paramétert váró <code>printState</code> segédmetódust. Ez a metódus a megkapott <code>StringBuilder</code> végére fogja fűzni a játéktábla aktuális állapotát (ez is része a <code>play</code> által visszaadott kimenetnek).</p>
+                                    <p>A <code>printState</code> metódus törzsének elkészítéséhez egy további típusra és néhány metódusra lesz szükség, melyeket a következő, 5. részben készítünk el.</p>
+                                </li>
+                                <li>
+                                    <p>Ha már az összes elvárt mozgatást (a lista összes tagját) feldolgozta a <code>play</code> metódus, és eddig nem történt ütközés, szintén térjen vissza az eddig elkészített szöveggel. (Ilyenkor <em>ne</em> fűzzük hozzá a <code>&quot;GAME OVER&quot;</code> szöveget.)</p>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p><strong>FONTOS!</strong> A feladat logikai felépítése szerint az 5. és 6. rész következik, viszont az utolsó 7. rész JUnit tesztek elkészítése a már megírt <code>toApples</code> metódushoz. Javasoljuk rögtön a mostani 4. rész után a tesztek megírását. (Egy valós szoftverfejlesztési projektben sem szeparálódhat nagyon a kód megírása és tesztelése.)</p>
+                    <h2 id="kiíratás">5. Kiíratás</h2>
+                    <h3 id="snake.util.position-1"><code>snake.util.Position</code></h3>
+                    <p>Készítsük el a <code>Position</code> osztály <code>hashCode</code> és <code>equals</code> metódusát! Két <code>Position</code> objektum akkor egyenlő, ha sor- és oszlopindexük is megegyezik.</p>
+                    <h3 id="snake.util.positionmap"><code>snake.util.PositionMap</code></h3>
+                    <p>Hozzuk létre a <code>snake.util.PositionMap</code> osztályt, melynek egyetlen <code>T</code> típusparamétere van.</p>
+                    <p>Adattagjai:</p>
+                    <ul>
+                        <li><code>map</code>: módosíthatatlan, <code>Position</code> kulcsokhoz <code>T</code> típusú elemeket társító <code>Map</code>.</li>
+                        <li><code>defaultValue</code>: módosíthatatlan, <code>T</code> típusú.</li>
+                    </ul>
+                    <p>Metódusai:</p>
+                    <ul>
+                        <li>
+                            <p>Legyen egy publikus <code>PositionMap(T defaultValue)</code> konstruktora, mely letárolja a kapott paramétert a megfelelő adattagba. A <code>map</code> adattagot inicializáljuk egy üres <code>HashMap</code>-pel.</p>
+                        </li>
+                        <li>
+                            <p>Legyen egy visszatérési érték nélküli <code>put(Position pos, T element)</code> metódusa. Ez a metódus helyezze el a <code>map</code> adattagban tárolt <code>Map</code>-ben a paraméterül kapott kulcs-érték párt.</p>
+                        </li>
+                        <li>
+                            <p>Legyen egy <code>T</code> visszatérési értékű <code>get(Position pos)</code> metódusa. Ez a metódus kérje le a <code>pos</code> kulcshoz tartozó értéket a <code>map</code>-ből. Ha van ilyen, térjen vissza vele. Ha nincs, térjen vissza a <code>defaultValue</code>-val.</p>
+                        </li>
+                    </ul>
+                    <h3 id="snake.tile-1"><code>snake.Tile</code></h3>
+                    <p>Egészítsük ki a <code>Tile</code> interfészt a visszatérési érték nélküli <code>print(PositionMap&lt;Character&gt; map)</code> metódussal, melynek implementációi azért felelnek majd, hogy a paraméterül kapott <code>map</code>-be elhelyezzenek egy, a megfelelő mezőt ábrázoló karaktert.</p>
+                    <p>Ezt a metódust a <code>Tile</code> interfészt megvalósító osztályainkban a következőképpen definiáljuk felül:</p>
+                    <ul>
+                        <li><code>Apple:</code> helyezzünk be a <code>map</code>-be az alma pozíciójára egy <code>'o'</code> karaktert.</li>
+                        <li><code>SnakeTail:</code> helyezzünk be a <code>map</code>-be a kígyó farkának pozíciójára egy <code>'~'</code> karaktert.</li>
+                        <li><code>SnakeHead:</code> helyezzünk be a <code>map</code>-be a kígyó fejének pozíciójára egy <code>'@'</code> karaktert, valamint hívjuk meg a kígyó farkának (<code>tail</code> adattag) <code>print</code> metódusát is, a <code>map</code>-et átadva paraméterül.</li>
+                    </ul>
+                    <h3 id="snake.game.printstate"><code>snake.Game.printState</code></h3>
+                    <p>Az előző részfeladatban létrehozott <code>printState</code> segédmetódust a <code>Game</code> osztályban a következőképpen definiálhatjuk:</p>
+                    <ul>
+                        <li>
+                            <p>Hozzon létre egy új <code>PositionMap&lt;Character&gt;</code> objektumot, egy szóköz karaktert adva neki paraméterül.</p>
+                        </li>
+                        <li>
+                            <p>Hívja meg a <code>snake</code> adattagnak és az apples lista első elemének (amennyiben a lista nem üres) <code>print</code> metódusát a létrehozott <code>PositionMap</code>-pel felparaméterezve. Ezzel az aktuális alma és a kígyó kirajzolódik a térképre.</p>
+                        </li>
+                        <li>
+                            <p>Két egymásba ágyazott ciklussal járja végig a pálya elérhető indexeit (a sor- és az oszlopindex legalább <code>0</code>, és <code>SIZE_OF_BOARD</code>-nál kisebb), készítsen el mindegyiknek megfelelően egy <code>Position</code> objektumot, és kérje le az adott pozíción lévő karaktert a <code>map</code>-ből. A karaktert fűzze hozzá a paraméterül kapott <code>StringBuilder</code>-hez.</p>
+                        </li>
+                        <li>
+                            <p>Soronként fűzzön hozzá egy sortörés karaktert.</p>
+                        </li>
+                        <li>
+                            <p>Miután a ciklus véget ért, a <code>StringBuilder</code>hez még fűzze hozzá a metódus a <code>&quot;==========&quot;</code> karakterláncot (<code>10</code> darab egyenlőségjel) és ezt követően egy sortörés karaktert, ezekkel jelezve az aktuális kirajzolás szélét.</p>
+                        </li>
+                    </ul>
+                    <p><em>Megjegyzés:</em> Különböző operációs rendszerek különböző sortörés karaktereket használnak (<code>\n</code>,<code>\r</code>,<code>\r\n</code>). A platform-semleges sortörések érdekében használjuk a <code>System.lineSeparator()</code> metódust.</p>
+                    <p><em>Megjegyzés:</em> ezen a ponton a feladat már futtatható a mellékelt <code>Main</code> osztály és az első mintabemenet segítségével. Az ugyanis nem tartalmazza egyetlen alma elfogyasztását sem.</p>
+                    <h2 id="almaevés-és-növekedés">6. Almaevés és növekedés</h2>
+                    <h3 id="snake.parts.snaketailpart"><code>snake.parts.SnakeTailPart</code></h3>
+                    <p>Készítsük el a <code>snake.parts.SnakeTailPart</code> osztályt, mely származik a <code>SnakeTail</code> osztályból. Ez az osztály fog felelni azért, hogy a kígyó farka (teste) növelhető legyen, ahogy újabb és újabb almákat fogyaszt el. Az egyes példányok úgy fognak viselkedni, mintha <code>SnakeTail</code> objektumok lennének, leírják nem csak magukat, de a kígyó teljes (mögöttük lévő) farkát. Azaz minden metódusra úgy adnak megoldást, hogy a mögöttük lévő elemeket is megfelelően mozgatják vagy figyelembe veszik (rekurzív metódushívásokkal).</p>
+                    <p>Adattagjai:</p>
+                    <ul>
+                        <li><code>next</code>: módosíthatatlan, <code>SnakeTail</code> típusú. A következő részt tartalmazza a kígyó farkából. Feltehetjük, hogy sosem <code>null</code>.</li>
+                    </ul>
+                    <p>Metódusai:</p>
+                    <ul>
+                        <li>
+                            <p>Legyen egy publikus <code>SnakeTailPart(Position position, SnakeTail next)</code> metódusa, mely átadja az ősosztály konstruktorának a kapott pozíciót, a <code>next</code> paraméteret pedig elmenti a megfelelő adattagba. Ha a <code>next</code> értéke <code>null</code>, dobjon <code>IllegalArgumentException</code>-t.</p>
+                        </li>
+                        <li>
+                            <p>Írja felül a <code>SnakeTail</code> osztályból örökölt, védett <code>moveTo</code> metódust. Először mozgassa a <code>next</code> adattagban lévő következő elemet az aktuális pozíciójára (a <code>moveTo</code> metódus rekurzív hívásával), majd hívja meg az ősben definiált változatát, hogy saját magát a paraméterül kapott pozícióra mozgathassa. (Így a kígyó farkának következő eleme oda kerül, ahol eddig ez az elem volt, míg ez az elem oda, ahová a metódus paramétere mutat.)</p>
+                        </li>
+                        <li>
+                            <p>Írja felül a <code>SnakeTail</code> osztályból örökölt, védett <code>isAt</code> metódust. Ha az aktuális objektum pozíciója egyenlő a paraméterül kapott pozícióval, a metódus térjen vissza igazzal. Különben ellenőrizze, hogy a kígyó farkának hátralévő része nincs-e az adott pozíción a <code>next</code> objektum <code>isAt</code> metódusával.</p>
+                        </li>
+                        <li>
+                            <p>Írja felül a <code>Tile</code> interfészben deklarált és a <code>SnakeTail</code> osztályban már implementált <code>print</code> metódust. Helyezzen a paraméterül kapott <code>map</code>-be egy <code>'#'</code> karaktert, illetve hívja meg a <code>next</code> objektum <code>print</code> metódusát is.</p>
+                        </li>
+                    </ul>
+                    <h3 id="snake.parts.snakehead.moveint-int"><code>snake.parts.SnakeHead.move(int, int)</code></h3>
+                    <p>Egészítsük ki a <code>SnakeHead</code> osztály két egész paramétert váró <code>move</code> metódusát, hogy ha a fej az aktuális almára ér, megegye.</p>
+                    <ul>
+                        <li>
+                            <p>Miután a metódusban létrehoztuk a következő lépésnek megfelelő pozíciót, valamint ellenőriztük, hogy ez egy érvényes pozíció-e, ahol a kígyó farka nincs ott (nem történt ütközés), vizsgáljuk meg, hogy az új pozíció, ahová lépünk, nem egyenlő-e az aktuális alma pozíciójával. Az almát a <code>game</code> adattag <code>getApple</code> metódusával kérhetjük le. (Figyeljünk, hogy az eredmény <code>null</code> is lehet, ha már nincs több alma! Ilyenkor értelemszerűen nem történt evés.)</p>
+                        </li>
+                        <li>
+                            <p>Ha az alma <em>nincs</em> a következő pozíción, akkor mozgassuk a kígyó farkát az eddigi pozícióra, a fejét pedig a következőre, ahogy eddig.</p>
+                        </li>
+                        <li>
+                            <p>Ha az alma épp a következő pozíción van, hozzunk létre egy új <code>SnakeTailPart</code> objektumot, az aktuális pozícióval és a kígyó eddigi farkával felparaméterezve (<code>tail</code> adattag), majd ezt mentsük a <code>tail</code> adattagba. Emellett hívjuk meg a <code>game</code>adattag <code>ateApple</code> metódusát, hogy jelezzük az alma elfogyasztását, és mozgassuk a fejet a következő pozícióra. (Ilyenkor a kígyó farkát nem mozgatjuk, hiszen épp oda helyezzük az új testrészt, ahová amúgy azt húzná...)</p>
+                        </li>
+                    </ul>
+                    <h2 id="tesztelés">7. Tesztelés</h2>
+                    <p>Készítsük el a <code>snake.tests.ToApplesTest</code> teszt osztályt, melyben leteszteljük a <code>Game</code> osztály <code>toApples</code> metódusát JUnit 4 egységtesztekkel. Más metódus és osztály tesztelése nem szükséges a beadandó teljesítéséhez.</p>
+                    <p>A JUnit futtatásához szükséges két <code>.jar</code> állomány megtalálható a <a href="http://people.inf.elte.hu/koguaai/java/snake.zip">letölthető segédlet</a>ben.</p>
+                    <p>A tesztelésnek alaposnak kell lennie, legalább 10 különböző teszteset implementálásával.</p>
+                    <p>A tesztek megalkotásakor gondoljunk az alábbi esetekre:</p>
+                    <ul>
+                        <li><code>null</code> paraméter,</li>
+                        <li>üres lista,</li>
+                        <li>egy szöveg szóközzel kezdődik/végződik, vagy több szóközt tartalmaz,</li>
+                        <li>a sor-/oszlopindex nem szám,</li>
+                        <li>a sor-/oszlopindex negatív vagy <code>10</code>-nél nem kisebb,</li>
+                        <li>határesetek (pl. <code>0</code>, <code>9</code>, <code>10</code>),</li>
+                        <li>helyes bemenet: a ciklus egyszer/kétszer/többször lefut.</li>
+                    </ul>
+                    <h1 id="a-kód-futtatása">A kód futtatása</h1>
+                    <p>A feladathoz tartozó <a href="http://people.inf.elte.hu/koguaai/java/snake.zip">letölthető segédlet</a>ben található <code>Main.java</code> program, valamint mintabemenetek és mintakimenetek segítségével futtatható és ellenőrizhető a program. A szintén a <code>zip</code>-hez csatolt <code>README.txt</code> fájl tartalmaz részletes leírást mindezek használatáról.</p>
+                    <p>Figyelem: a helyes kimeneti fájl még nem feltétlenül jelenti azt, hogy a megoldás helyes.</p>
+                    <h2 id="jó-munkát">Jó munkát!</h2></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+    </div>
+</body>
