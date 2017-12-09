@@ -24,27 +24,27 @@ public class SnakeHead extends SnakeTail implements Snake
   @Override
   public void move(Direction dir, int times) throws CollisionException
   {
-    for(int i = 0; i < times; ++i)
+    for (int i = 0; i < times; ++i)
       move(dir);
   }
 
   @Override
   public void move(Direction direction) throws CollisionException
   {
-    switch(direction)
+    switch (direction)
     {
-      case UP:
-        move(position.getRow() - 1, position.getColumn()); 
-        break;
-      case DOWN:
-        move(position.getRow() + 1, position.getColumn()); 
-        break;
-      case RIGHT:
-        move(position.getRow(), position.getColumn() + 1); 
-        break;
-      case LEFT:
-        move(position.getRow(), position.getColumn() - 1); 
-        break;
+    case UP:
+      move(position.getRow() - 1, position.getColumn());
+      break;
+    case DOWN:
+      move(position.getRow() + 1, position.getColumn());
+      break;
+    case RIGHT:
+      move(position.getRow(), position.getColumn() + 1);
+      break;
+    case LEFT:
+      move(position.getRow(), position.getColumn() - 1);
+      break;
     }
   }
 
@@ -53,15 +53,15 @@ public class SnakeHead extends SnakeTail implements Snake
     try
     {
       Position pos = new Position(row, col);
-      if(isAt(pos))
+      if (tail.isAt(pos))
         throw new CollisionException();
-     
-      //TODO
+
+      // TODO
       Position tmp = this.position;
       this.position = pos;
       tail.position = tmp;
     }
-    catch(InvalidIndexException e)
+    catch (InvalidIndexException e)
     {
       throw new CollisionException();
     }
@@ -70,6 +70,7 @@ public class SnakeHead extends SnakeTail implements Snake
   @Override
   public void print(PositionMap<Character> map)
   {
-    map.put(position, '~');
+    map.put(position, '@');
+    tail.print(map);
   }
 }

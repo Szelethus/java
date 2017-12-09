@@ -7,7 +7,7 @@ import snake.util.PositionMap;
 public class Apple implements Tile
 {
   private final Position position;
-  
+
   public Apple(Position position)
   {
     this.position = position;
@@ -18,7 +18,7 @@ public class Apple implements Tile
   {
     return position;
   }
-  
+
   @Override
   public void print(PositionMap<Character> map)
   {

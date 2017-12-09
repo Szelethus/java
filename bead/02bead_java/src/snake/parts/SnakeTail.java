@@ -32,6 +32,6 @@ public class SnakeTail implements Tile
   @Override
   public void print(PositionMap<Character> map)
   {
-    map.put(position, '@');
+    map.put(position, '~');
   }
 }

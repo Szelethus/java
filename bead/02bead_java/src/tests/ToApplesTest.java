@@ -9,14 +9,14 @@ import snake.exception.InvalidIndexException;
 
 public class ToApplesTest
 {
-  
-  @Test (expected = IllegalArgumentException.class)
+
+  @Test(expected = IllegalArgumentException.class)
   public void nullparam() throws IllegalArgumentException, InvalidIndexException
   {
     Game game = new Game(null);
   }
-  
-  @Test 
+
+  @Test
   public void nullparam() throws IllegalArgumentException, InvalidIndexException
   {
     Game game = new Game(new ArrayList<String>());

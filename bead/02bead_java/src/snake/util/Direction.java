@@ -1,9 +1,3 @@
 package snake.util;
 
-public enum Direction
-{
-  UP,
-  DOWN,  
-  RIGHT,
-  LEFT
-}
+public enum Direction { UP, DOWN, RIGHT, LEFT }

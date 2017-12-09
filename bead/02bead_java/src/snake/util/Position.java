@@ -10,8 +10,7 @@ public class Position
 
   public Position(int row, int col) throws InvalidIndexException
   {
-    if(row >= 0 && row < SIZE_OF_BOARD &&
-       col >= 0 && col < SIZE_OF_BOARD)
+    if (row >= 0 && row < SIZE_OF_BOARD && col >= 0 && col < SIZE_OF_BOARD)
     {
       this.row = row;
       this.column = col;
@@ -40,9 +39,9 @@ public class Position
   @Override
   public boolean equals(Object obj)
   {
-    if(obj != null && obj instanceof Position)
+    if (obj != null && obj instanceof Position)
     {
-      Position other = (Position) obj;
+      Position other = (Position)obj;
       return this.row == other.row && this.column == other.column;
     }
     else
