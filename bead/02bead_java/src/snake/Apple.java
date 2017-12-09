@@ -1,3 +1,5 @@
+package snake;
+
 import snake.Tile;
 import snake.util.Position;
 

@@ -1,3 +1,5 @@
+package snake.util;
+
 import snake.exception.InvalidIndexException;
 
 public class Position
@@ -16,7 +18,7 @@ public class Position
     }
     else
     {
-      throw InvalidIndexException;
+      throw new InvalidIndexException();
     }
   }
 

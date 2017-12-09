@@ -1,9 +1,11 @@
+package snake.parts;
+
 import snake.Tile;
 import snake.util.Position;
 
 public class SnakeTail implements Tile
 {
-  private Position position;
+  protected Position position;
 
   public SnakeTail(Position position)
   {
@@ -13,7 +15,7 @@ public class SnakeTail implements Tile
   @Override
   public Position getPosition()
   {
-    return Position;
+    return position;
   }
 
   protected void moveTo(Position pos)
