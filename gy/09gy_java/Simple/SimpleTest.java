@@ -6,38 +6,45 @@ import org.junit.Test;
 
 public class SimpleTest
 {
-  @Test public void testTrue()
+  @Test
+  public void testTrue()
   {
     assertTrue(1 == 1);
   }
 
-  @Test public void testFalse()
+  @Test
+  public void testFalse()
   {
     assertTrue(0 == 1);
   }
 
-  @Test public void manualSuccess()
+  @Test
+  public void manualSuccess()
   {
     return;
   }
 
-  @Test public void manualFail()
+  @Test
+  public void manualFail()
   {
     fail("Always fails");
     assertTrue(1 == 1);
   }
 
-  @Test public void testUnexpectedException()
+  @Test
+  public void testUnexpectedException()
   {
     throw new RuntimeException("Varatlan hiba tortent");
   }
 
-  @Test(expected = RuntimeException.class) public void testExpectedException()
+  @Test(expected = RuntimeException.class)
+  public void testExpectedException()
   {
     throw new RuntimeException("Varakozasnak megfelelo hiba tortent");
   }
 
-  @Test public void testExpectedException2()
+  @Test
+  public void testExpectedException2()
   {
     try
     {
@@ -49,7 +56,8 @@ public class SimpleTest
     }
   }
 
-  @Test(timeout = 2000) public void abortWhenInfiniteLoop()
+  @Test(timeout = 2000)
+  public void abortWhenInfiniteLoop()
   {
     while (true)
     {

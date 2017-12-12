@@ -4,42 +4,50 @@ import static org.junit.Assert.fail;
 
 public class GreeterTest
 {
-  @Test public void numeric()
+  @Test
+  public void numeric()
   {
     String str = Greeter.greet("0123456");
   }
 
-  @Test(expected = IllegalArgumentException.class) public void nullarg()
+  @Test(expected = IllegalArgumentException.class)
+  public void nullarg()
   {
     String str = Greeter.greet(null);
   }
 
-  @Test(expected = IllegalArgumentException.class) public void empty()
+  @Test(expected = IllegalArgumentException.class)
+  public void empty()
   {
     String str = Greeter.greet("");
   }
 
-  @Test public void startWithSpace()
+  @Test
+  public void startWithSpace()
   {
     String str = Greeter.greet(" smth");
   }
 
-  @Test public void onkySpace()
+  @Test
+  public void onkySpace()
   {
     String str = Greeter.greet("            ");
   }
 
-  @Test public void endWithSpace()
+  @Test
+  public void endWithSpace()
   {
     String str = Greeter.greet("smth ");
   }
 
-  @Test public void special()
+  @Test
+  public void special()
   {
     String str = Greeter.greet("éáűőúöüó~`^°˛˙ \n \\");
   }
 
-  @Test public void veryLong()
+  @Test
+  public void veryLong()
   {
     String str
         = Greeter.greet("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"

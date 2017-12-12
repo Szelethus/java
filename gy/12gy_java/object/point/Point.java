@@ -22,17 +22,20 @@ public class Point implements Comparable<Point>
     this.y = y;
   }
 
-  @Override public String toString()
+  @Override
+  public String toString()
   {
     return "(" + x + ", " + y + ")";
   }
 
-  @Override public int hashCode()
+  @Override
+  public int hashCode()
   {
     return x + y + x * y;
   }
 
-  @Override public boolean equals(Object obj)
+  @Override
+  public boolean equals(Object obj)
   {
     if (obj != null && obj instanceof Point)
     {
@@ -42,7 +45,8 @@ public class Point implements Comparable<Point>
     return false;
   }
 
-  @Override public int compareTo(Point other)
+  @Override
+  public int compareTo(Point other)
   {
     if (this.x < other.x)
       return -1;
